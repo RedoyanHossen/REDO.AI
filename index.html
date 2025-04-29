@@ -1,0 +1,1191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redo.AI - AI Tools Platform</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Color Grading Variables */
+    :root {
+      --primary-base: #6C5CE7;
+      --primary-dark: #5649c7;
+      --primary-light: #8477f0;
+      
+      --secondary-base: #00b894;
+      --secondary-dark: #00a383;
+      --secondary-light: #26c9a3;
+      
+      --accent-base: #fd79a8;
+      --accent-dark: #fc5d97;
+      --accent-light: #fe95bc;
+      
+      --dark-base: #2d3436;
+      --dark-dark: #1e2223;
+      --dark-light: #3d4547;
+      
+      --light-base: #f5f6fa;
+      --light-dark: #dfe6e9;
+      --light-light: #ffffff;
+      
+      --text-base: #2d3436;
+      --text-dark: #1e2223;
+      --text-light: #636e72;
+      
+      /* Gradients */
+      --primary-gradient: linear-gradient(135deg, var(--primary-base), var(--primary-dark));
+      --secondary-gradient: linear-gradient(135deg, var(--secondary-base), var(--secondary-dark));
+      --accent-gradient: linear-gradient(135deg, var(--accent-base), var(--accent-dark));
+      
+      /* Shadows */
+      --soft-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --hard-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      --text-glow: 0 2px 10px rgba(108, 92, 231, 0.3);
+    }
+
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--light-base);
+      color: var(--text-base);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Typography */
+    h1, h2, h3, h4 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    p {
+      font-weight: 400;
+      color: var(--text-light);
+    }
+
+    /* Layout Components */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section {
+      padding: 80px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      color: var(--dark-base);
+      margin-bottom: 15px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: var(--primary-gradient);
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 1.1rem;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--primary-gradient);
+      color: white;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--hard-shadow);
+    }
+
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
+    .btn-primary:hover::before {
+      left: 100%;
+    }
+
+    .btn-secondary {
+      background: var(--secondary-gradient);
+      color: white;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .btn-secondary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--hard-shadow);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--primary-base);
+      border: 2px solid var(--primary-base);
+    }
+
+    .btn-outline:hover {
+      background: var(--primary-base);
+      color: white;
+    }
+
+    /* Header & Navigation */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 0;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: var(--soft-shadow);
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      font-size: 2rem;
+      color: var(--primary-base);
+      margin-right: 10px;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark-base);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 30px;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-base);
+      font-weight: 500;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-base);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-gradient);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-buttons .btn {
+      margin-left: 15px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 180px 0 100px;
+      background: var(--light-base);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 80%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, rgba(108, 92, 231, 0) 70%);
+      z-index: 0;
+    }
+
+    .hero-content {
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text {
+      flex: 1;
+      padding-right: 50px;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: var(--dark-base);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: var(--text-light);
+      max-width: 600px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+    }
+
+    .hero-image {
+      flex: 1;
+      position: relative;
+    }
+
+    .hero-image img {
+      width: 100%;
+      max-width: 600px;
+      border-radius: 20px;
+      box-shadow: var(--hard-shadow);
+      transform: perspective(1000px) rotateY(-10deg);
+      transition: transform 0.5s ease;
+    }
+
+    .hero-image:hover img {
+      transform: perspective(1000px) rotateY(0deg);
+    }
+
+    /* AI Tools Section */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+    }
+
+    .tool-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .tool-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hard-shadow);
+    }
+
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: var(--primary-gradient);
+    }
+
+    .tool-image {
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .tool-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .tool-card:hover .tool-image img {
+      transform: scale(1.1);
+    }
+
+    .tool-content {
+      padding: 25px;
+    }
+
+    .tool-title {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--dark-base);
+    }
+
+    .tool-description {
+      margin-bottom: 20px;
+      color: var(--text-light);
+    }
+
+    .tool-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .tool-price {
+      font-weight: 700;
+      color: var(--primary-base);
+    }
+
+    /* Features Section */
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 40px;
+    }
+
+    .feature-card {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: var(--soft-shadow);
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--hard-shadow);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: var(--primary-base);
+      margin-bottom: 20px;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--dark-base);
+    }
+
+    /* Login/Signup Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .auth-modal {
+      background: white;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 500px;
+      padding: 40px;
+      box-shadow: var(--hard-shadow);
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .modal-overlay.active .auth-modal {
+      transform: translateY(0);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 1.5rem;
+      color: var(--text-light);
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close-modal:hover {
+      color: var(--primary-base);
+    }
+
+    .auth-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .auth-title {
+      font-size: 2rem;
+      color: var(--dark-base);
+      margin-bottom: 10px;
+    }
+
+    .auth-subtitle {
+      color: var(--text-light);
+    }
+
+    .auth-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .auth-form label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark-base);
+    }
+
+    .auth-form input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--light-dark);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .auth-form input:focus {
+      border-color: var(--primary-base);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+      outline: none;
+    }
+
+    .auth-footer {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .auth-footer p {
+      color: var(--text-light);
+    }
+
+    .auth-footer a {
+      color: var(--primary-base);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .auth-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .auth-switch {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    /* Dashboard (Logged In) */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .user-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--primary-gradient);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      margin-right: 15px;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--dark-base);
+    }
+
+    .user-email {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .logout-btn {
+      background: var(--light-dark);
+      color: var(--text-base);
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: var(--primary-base);
+      color: white;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--dark-base);
+      color: white;
+      padding: 60px 0 30px;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .footer-logo-icon {
+      font-size: 1.8rem;
+      color: var(--primary-base);
+      margin-right: 10px;
+    }
+
+    .footer-logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .footer-about p {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      color: white;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: var(--primary-base);
+    }
+
+    .footer-links h3 {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 10px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-base);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .hero-content {
+        flex-direction: column;
+      }
+      
+      .hero-text {
+        padding-right: 0;
+        margin-bottom: 50px;
+        text-align: center;
+      }
+      
+      .hero-buttons {
+        justify-content: center;
+      }
+      
+      .hero-title {
+        font-size: 2.8rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .hero-title {
+        font-size: 2.2rem;
+      }
+      
+      .hero-buttons {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .section {
+        padding: 60px 0;
+      }
+      
+      .section-title {
+        font-size: 1.8rem;
+      }
+      
+      .auth-modal {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="logo-text">Redo.AI</div>
+      </a>
+      
+      <ul class="nav-links">
+        <li><a href="#tools">AI Tools</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      
+      <div class="auth-buttons">
+        <button class="btn btn-outline" id="loginBtn">Login</button>
+        <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">Supercharge Your Workflow with AI</h1>
+        <p class="hero-subtitle">Redo.AI provides cutting-edge artificial intelligence tools to help you work smarter, faster, and more creatively.</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary">Explore Tools</button>
+          <button class="btn btn-outline">Watch Demo</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1677442135136-760c813a743d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Technology">
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Tools Section -->
+  <section class="section" id="tools">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Our AI Tools</h2>
+        <p class="section-subtitle">Discover our powerful suite of artificial intelligence tools designed to transform your workflow</p>
+      </div>
+      
+      <div class="tools-grid">
+        <!-- AI Tool 1 -->
+        <div class="tool-card">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1655720828012-585b4245fb6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Content Generator">
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Content Generator</h3>
+            <p class="tool-description">Create high-quality content in seconds with our advanced AI writing assistant.</p>
+            <div class="tool-footer">
+              <span class="tool-price">$29/month</span>
+              <button class="btn btn-primary">Try Now</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Tool 2 -->
+        <div class="tool-card">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1677442135139-34e8d7f43a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Image Creator">
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Image Creator</h3>
+            <p class="tool-description">Generate stunning visuals from text descriptions with our AI art generator.</p>
+            <div class="tool-footer">
+              <span class="tool-price">$39/month</span>
+              <button class="btn btn-primary">Try Now</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Tool 3 -->
+        <div class="tool-card">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1677442135139-34e8d7f43a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Code Assistant">
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">Code Assistant</h3>
+            <p class="tool-description">Write better code faster with AI-powered suggestions and auto-completion.</p>
+            <div class="tool-footer">
+              <span class="tool-price">$49/month</span>
+              <button class="btn btn-primary">Try Now</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="section" id="features" style="background-color: var(--light-dark);">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Why Choose Redo.AI</h2>
+        <p class="section-subtitle">Our platform offers everything you need to harness the power of artificial intelligence</p>
+      </div>
+      
+      <div class="features-container">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3 class="feature-title">Lightning Fast</h3>
+          <p>Our AI tools deliver results in seconds, saving you hours of manual work.</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3 class="feature-title">Secure & Private</h3>
+          <p>Your data is encrypted and never shared with third parties.</p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3 class="feature-title">Constantly Improving</h3>
+          <p>Our AI models learn and improve with every interaction.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div class="modal-overlay" id="loginModal">
+    <div class="auth-modal">
+      <span class="close-modal">&times;</span>
+      
+      <div class="auth-header">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Login to access your Redo.AI dashboard</p>
+      </div>
+      
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        
+        <div class="auth-footer">
+          <p>Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Signup Modal -->
+  <div class="modal-overlay" id="signupModal">
+    <div class="auth-modal">
+      <span class="close-modal">&times;</span>
+      
+      <div class="auth-header">
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Join Redo.AI and unlock powerful AI tools</p>
+      </div>
+      
+      <form class="auth-form" id="signupForm">
+        <div class="form-group">
+          <label for="signupName">Full Name</label>
+          <input type="text" id="signupName" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupEmail">Email Address</label>
+          <input type="email" id="signupEmail" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupPassword">Password</label>
+          <input type="password" id="signupPassword" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="signupConfirm">Confirm Password</label>
+          <input type="password" id="signupConfirm" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+        
+        <div class="auth-footer">
+          <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard (Hidden by default) -->
+  <div id="dashboard" style="display: none;">
+    <section class="section">
+      <div class="container">
+        <div class="dashboard-header">
+          <div class="user-profile">
+            <div class="user-avatar" id="userAvatar">JD</div>
+            <div>
+              <div class="user-name" id="userName">John Doe</div>
+              <div class="user-email" id="userEmail">john@example.com</div>
+            </div>
+          </div>
+          <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
+        
+        <h2>Your AI Tools Dashboard</h2>
+        <!-- Dashboard content would go here -->
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-container">
+        <div class="footer-about">
+          <div class="footer-logo">
+            <div class="footer-logo-icon">
+              <i class="fas fa-robot"></i>
+            </div>
+            <div class="footer-logo-text">Redo.AI</div>
+          </div>
+          <p>Empowering creativity and productivity through artificial intelligence.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-discord"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Products</h3>
+          <ul>
+            <li><a href="#">AI Content Generator</a></li>
+            <li><a href="#">AI Image Creator</a></li>
+            <li><a href="#">AI Code Assistant</a></li>
+            <li><a href="#">Pricing</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Company</h3>
+          <ul>
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h3>Resources</h3>
+          <ul>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">API Reference</a></li>
+            <li><a href="#">Community</a></li>
+            <li><a href="#">Support</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2023 Redo.AI. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Simulated API
+    const RedoAI = {
+      users: [],
+      
+      register: function(name, email, password) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Check if user already exists
+            const userExists = this.users.some(user => user.email === email);
+            if (userExists) {
+              reject({ success: false, message: 'Email already registered' });
+              return;
+            }
+            
+            // Create new user
+            const newUser = {
+              id: Date.now(),
+              name,
+              email,
+              password, // In real app, this would be hashed
+              createdAt: new Date().toISOString()
+            };
+            
+            this.users.push(newUser);
+            resolve({ success: true, user: newUser });
+          }, 1000);
+        });
+      },
+      
+      login: function(email, password) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const user = this.users.find(u => u.email === email && u.password === password);
+            if (user) {
+              resolve({ success: true, user });
+            } else {
+              reject({ success: false, message: 'Invalid email or password' });
+            }
+          }, 1000);
+        });
+      },
+      
+      getCurrentUser: function() {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const token = localStorage.getItem('redoai_token');
+            if (!token) {
+              resolve(null);
+              return;
+            }
+            
+            const userId = parseInt(token);
+            const user = this.users.find(u => u.id === userId);
+            resolve(user || null);
+          }, 500);
+        });
+      }
+    };
+
+    // DOM Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const closeModalBtns = document.querySelectorAll('.close-modal');
+    const switchToLogin = document.getElementById('switchToLogin');
+    const switchToSignup = document.getElementById('switchToSignup');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const dashboard = document.getElementById('dashboard');
+    const mainContent = document.querySelector('main');
+
+    // Modal Toggle Functions
+    function openModal(modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(modal) {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function closeAllModals() {
+      closeModal(loginModal);
+      closeModal(signupModal);
+    }
+
+    // Event Listeners
+    loginBtn.addEventListener('click', () => openModal(loginModal));
+    signupBtn.addEventListener('click', () => openModal(signupModal));
+
+    closeModalBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const modal = btn.closest('.modal-overlay');
+        closeModal(modal);
+      });
+    });
+
+    switchToLogin.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(signupModal);
+      openModal(loginModal);
+    });
+
+    switchToSignup.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeModal(loginModal);
+      openModal(signupModal);
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        closeModal(e.target);
+      }
+    });
+
+    // Form Submissions
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      
+      try {
+        const response = await RedoAI.login(email, password);
+        
+        if (response.success) {
+          // Store user token (simulated)
+          localStorage.setItem('redoai_token', response.user.id);
+          
+          // Update UI
+          document.getElementById('userName').textContent = response.user.name;
+          document.getElementById('userEmail').textContent = response.user.email;
+          document.getElementById('userAvatar').textContent = 
+            response.user.name.split(' ').map(n => n[0]).join('');
+          
+          // Show dashboard
+          dashboard.style.display = 'block';
+          document.querySelector('main').style.display = 'none';
+          document.querySelector('header').style.display = 'none';
+          
+          closeAllModals();
+        }
+      } catch (error) {
+        alert(error.message || 'Login failed. Please try again.');
+      }
+    });
+
+    signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('signupName').value;
+     

@@ -1,914 +1,369 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redo.AI - Free AI Tools Platform</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    /* Modern Color Grading */
-    :root {
-      --primary-500: #6C5CE7;
-      --primary-400: #8477f0;
-      --primary-300: #9d91f3;
-      
-      --secondary-500: #00b894;
-      --secondary-400: #26c9a3;
-      --secondary-300: #4dd9b2;
-      
-      --accent-500: #fd79a8;
-      --accent-400: #fe95bc;
-      --accent-300: #ffb1d0;
-      
-      --dark-900: #1a1a2e;
-      --dark-700: #3a3a4e;
-      --dark-500: #5a5a6e;
-      
-      --light-100: #f5f6fa;
-      --light-300: #dfe6e9;
-      --light-500: #ffffff;
-      
-      --gradient-primary: linear-gradient(135deg, var(--primary-500), var(--primary-400));
-      --gradient-secondary: linear-gradient(135deg, var(--secondary-500), var(--secondary-400));
-      --gradient-accent: linear-gradient(135deg, var(--accent-500), var(--accent-400));
-      
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--light-100);
-      color: var(--dark-900);
-      line-height: 1.6;
-    }
-
-    /* Layout Components */
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .section {
-      padding: 80px 0;
-    }
-
-    /* Header & Navigation */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      padding: 20px 0;
-      background: rgba(255, 255, 255, 0.98);
-      box-shadow: var(--shadow-sm);
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-    }
-
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      font-size: 2rem;
-      color: var(--primary-500);
-      margin-right: 10px;
-    }
-
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-
-    .nav-links li {
-      margin-left: 30px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--dark-700);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-links i {
-      margin-right: 8px;
-    }
-
-    .auth-buttons {
-      display: flex;
-      align-items: center;
-    }
-
-    /* Buttons */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 24px;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      border: none;
-    }
-
-    .btn-primary {
-      background: var(--gradient-primary);
-      color: white;
-      box-shadow: var(--shadow-md);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .btn-icon {
-      margin-right: 8px;
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 180px 0 100px;
-      background: var(--light-100);
-      position: relative;
-    }
-
-    .hero-content {
-      display: flex;
-      align-items: center;
-    }
-
-    .hero-text {
-      flex: 1;
-      padding-right: 50px;
-    }
-
-    .hero-title {
-      font-size: 3rem;
-      margin-bottom: 20px;
-      line-height: 1.1;
-    }
-
-    .hero-subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 30px;
-      color: var(--dark-500);
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 20px;
-    }
-
-    /* AI Tools Section */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-    }
-
-    .tool-card {
-      background: white;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: var(--shadow-md);
-      transition: all 0.3s ease;
-    }
-
-    .tool-card:hover {
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .tool-content {
-      padding: 25px;
-    }
-
-    .tool-title {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-    }
-
-    .tool-icon {
-      margin-right: 10px;
-      color: var(--primary-500);
-    }
-
-    /* Auth Modals */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .auth-modal {
-      background: white;
-      border-radius: 15px;
-      width: 100%;
-      max-width: 500px;
-      padding: 40px;
-      box-shadow: var(--shadow-lg);
-      transform: translateY(20px);
-      transition: all 0.3s ease;
-    }
-
-    .modal-overlay.active .auth-modal {
-      transform: translateY(0);
-    }
-
-    .auth-header {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .auth-title {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
-
-    .form-group input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid var(--light-300);
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-
-    /* Dashboard */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-    }
-
-    .user-profile {
-      display: flex;
-      align-items: center;
-    }
-
-    .user-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--gradient-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-weight: 600;
-      margin-right: 15px;
-    }
-
-    /* AI Tool Interface */
-    .tool-interface {
-      background: white;
-      border-radius: 15px;
-      padding: 30px;
-      box-shadow: var(--shadow-md);
-      margin-bottom: 30px;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    .input-group textarea {
-      width: 100%;
-      min-height: 150px;
-      padding: 15px;
-      border: 1px solid var(--light-300);
-      border-radius: 8px;
-      resize: vertical;
-    }
-
-    .result-container {
-      background: var(--light-100);
-      border-radius: 8px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero-content {
-        flex-direction: column;
-      }
-      
-      .hero-text {
-        padding-right: 0;
-        margin-bottom: 50px;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SereneMassage | Relax & Connect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #FF6584;
+            --light: #F8F9FA;
+            --dark: #343A40;
+            --success: #28A745;
+            --warning: #FFC107;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        .form-container {
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+            outline: none;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background: #5a52e0;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        .btn-secondary:hover {
+            background: #e04f6a;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mt-3 {
+            margin-top: 15px;
+        }
+        .error {
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .success {
+            color: var(--success);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        .toggle-form {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .hidden {
+            display: none;
+        }
+        .massage-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        .massage-card h4 {
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+        .massage-card p {
+            color: var(--dark);
+        }
+        .user-greeting {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <div class="container header-container">
-      <a href="#" class="logo">
-        <div class="logo-icon">
-          <i class="fas fa-robot"></i>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-spa"></i> SereneMassage</h1>
         </div>
-        <div class="logo-text">Redo.AI</div>
-      </a>
-      
-      <ul class="nav-links">
-        <li><a href="#tools"><i class="fas fa-cubes"></i> AI Tools</a></li>
-        <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
-      </ul>
-      
-      <div class="auth-buttons">
-        <button class="btn btn-primary" id="loginBtn">
-          <i class="fas fa-sign-in-alt btn-icon"></i> Login
-        </button>
-      </div>
+
+        <!-- Login Form -->
+        <div class="form-container" id="loginSection">
+            <h2>Welcome Back!</h2>
+            <p>Log in to send relaxing massages to your friends.</p>
+            
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" class="form-control" placeholder="Enter your username">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Enter your password">
+            </div>
+            
+            <button class="btn" onclick="login()">Login</button>
+            <p class="error" id="loginError"></p>
+            
+            <p class="text-center mt-3">Don't have an account? 
+                <span class="toggle-form" onclick="showRegister()">Register here</span>
+            </p>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-container hidden" id="registerSection">
+            <h2>Create Account</h2>
+            <p>Join our community of relaxation enthusiasts.</p>
+            
+            <div class="form-group">
+                <label for="newUsername">Username</label>
+                <input type="text" id="newUsername" class="form-control" placeholder="Choose a username">
+            </div>
+            
+            <div class="form-group">
+                <label for="newPassword">Password</label>
+                <input type="password" id="newPassword" class="form-control" placeholder="Create a password">
+            </div>
+            
+            <button class="btn" onclick="register()">Register</button>
+            <p class="error" id="registerError"></p>
+            
+            <p class="text-center mt-3">Already have an account? 
+                <span class="toggle-form" onclick="showLogin()">Login here</span>
+            </p>
+        </div>
+
+        <!-- Massage Dashboard -->
+        <div class="form-container hidden" id="dashboardSection">
+            <h2 class="user-greeting">Hello, <span id="currentUser"></span>!</h2>
+            
+            <div class="form-group">
+                <label for="friendUsername">Friend's Username</label>
+                <input type="text" id="friendUsername" class="form-control" placeholder="Who will receive your massage?">
+            </div>
+            
+            <div class="form-group">
+                <label for="massageText">Your Massage</label>
+                <textarea id="massageText" class="form-control" rows="4" placeholder="Type your relaxing message here..."></textarea>
+            </div>
+            
+            <button class="btn" onclick="sendMassage()"><i class="fas fa-paper-plane"></i> Send Massage</button>
+            <p class="success" id="responseMessage"></p>
+            
+            <h3 class="mt-3">Your Received Massages</h3>
+            <div id="massagesList"></div>
+            
+            <button class="logout-btn" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="container hero-content">
-        <div class="hero-text">
-          <h1 class="hero-title">Free AI Tools for Everyone</h1>
-          <p class="hero-subtitle">Access powerful AI tools completely free. Create content, generate images, get answers to your questions, and more!</p>
-          <div class="hero-buttons">
-            <button class="btn btn-primary" id="heroLoginBtn">
-              <i class="fas fa-sign-in-alt btn-icon"></i> Login to Get Started
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
+    <script>
+        // Initialize localStorage "database"
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('massages')) {
+            localStorage.setItem('massages', JSON.stringify([]));
+        }
 
-    <!-- AI Tools Section -->
-    <section class="section" id="tools">
-      <div class="container">
-        <div class="tools-grid">
-          <!-- Content Generator -->
-          <div class="tool-card">
-            <div class="tool-content">
-              <h3 class="tool-title">
-                <i class="fas fa-pen-fancy tool-icon"></i> Content Generator
-              </h3>
-              <p>Create high-quality content for blogs, articles, and more with our AI writing assistant.</p>
-              <button class="btn btn-primary" style="margin-top: 15px;" id="contentToolBtn">
-                <i class="fas fa-arrow-right btn-icon"></i> Use Tool
-              </button>
-            </div>
-          </div>
-          
-          <!-- Question Answering -->
-          <div class="tool-card">
-            <div class="tool-content">
-              <h3 class="tool-title">
-                <i class="fas fa-question-circle tool-icon"></i> Question Answering
-              </h3>
-              <p>Get accurate answers to any question using our advanced AI knowledge base.</p>
-              <button class="btn btn-primary" style="margin-top: 15px;" id="qaToolBtn">
-                <i class="fas fa-arrow-right btn-icon"></i> Use Tool
-              </button>
-            </div>
-          </div>
-          
-          <!-- Image Generator -->
-          <div class="tool-card">
-            <div class="tool-content">
-              <h3 class="tool-title">
-                <i class="fas fa-image tool-icon"></i> Image Generator
-              </h3>
-              <p>Create stunning visuals from text descriptions with our AI art generator.</p>
-              <button class="btn btn-primary" style="margin-top: 15px;" id="imageToolBtn">
-                <i class="fas fa-arrow-right btn-icon"></i> Use Tool
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+        // DOM Elements
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const dashboardSection = document.getElementById('dashboardSection');
+        const currentUserSpan = document.getElementById('currentUser');
+        const massagesList = document.getElementById('massagesList');
 
-  <!-- Login Modal -->
-  <div class="modal-overlay" id="loginModal">
-    <div class="auth-modal">
-      <div class="auth-header">
-        <h2 class="auth-title">Login to Redo.AI</h2>
-        <p>Access all our free AI tools with your account</p>
-      </div>
-      
-      <form id="loginForm">
-        <div class="form-group">
-          <label for="loginEmail">Email</label>
-          <input type="email" id="loginEmail" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" required>
-        </div>
-        
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
-          <i class="fas fa-sign-in-alt btn-icon"></i> Login
-        </button>
-        
-        <p style="text-align: center; margin-top: 20px;">
-          Don't have an account? <a href="#" id="showSignup">Sign up</a>
-        </p>
-      </form>
-    </div>
-  </div>
+        // Toggle Forms
+        function showRegister() {
+            loginSection.classList.add('hidden');
+            registerSection.classList.remove('hidden');
+            clearErrors();
+        }
+        function showLogin() {
+            registerSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            clearErrors();
+        }
+        function showDashboard(username) {
+            loginSection.classList.add('hidden');
+            registerSection.classList.add('hidden');
+            dashboardSection.classList.remove('hidden');
+            currentUserSpan.textContent = username;
+            loadMassages(username);
+        }
 
-  <!-- Signup Modal -->
-  <div class="modal-overlay" id="signupModal">
-    <div class="auth-modal">
-      <div class="auth-header">
-        <h2 class="auth-title">Create Your Account</h2>
-        <p>Join Redo.AI to access all our free AI tools</p>
-      </div>
-      
-      <form id="signupForm">
-        <div class="form-group">
-          <label for="signupName">Full Name</label>
-          <input type="text" id="signupName" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="signupEmail">Email</label>
-          <input type="email" id="signupEmail" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" required>
-        </div>
-        
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
-          <i class="fas fa-user-plus btn-icon"></i> Create Account
-        </button>
-        
-        <p style="text-align: center; margin-top: 20px;">
-          Already have an account? <a href="#" id="showLogin">Login</a>
-        </p>
-      </form>
-    </div>
-  </div>
+        // Clear Error Messages
+        function clearErrors() {
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('registerError').textContent = '';
+            document.getElementById('responseMessage').textContent = '';
+        }
 
-  <!-- Dashboard (Hidden by default) -->
-  <div id="dashboard" style="display: none;">
-    <section class="section">
-      <div class="container">
-        <div class="dashboard-header">
-          <div class="user-profile">
-            <div class="user-avatar" id="userAvatar">U</div>
-            <div>
-              <div id="userName">User</div>
-              <div id="userEmail">user@example.com</div>
-            </div>
-          </div>
-          <button class="btn btn-primary" id="logoutBtn">
-            <i class="fas fa-sign-out-alt btn-icon"></i> Logout
-          </button>
-        </div>
-        
-        <!-- Content Generator Tool -->
-        <div class="tool-interface" id="contentGeneratorTool">
-          <h2><i class="fas fa-pen-fancy"></i> Content Generator</h2>
-          <p>Generate high-quality content for any purpose</p>
-          
-          <div class="input-group">
-            <label for="contentPrompt">Enter your topic or prompt:</label>
-            <textarea id="contentPrompt" placeholder="e.g., Write a blog post about the benefits of AI in education"></textarea>
-          </div>
-          
-          <button class="btn btn-primary" id="generateContentBtn">
-            <i class="fas fa-magic btn-icon"></i> Generate Content
-          </button>
-          
-          <div class="result-container" id="contentResult" style="display: none; margin-top: 20px;">
-            <h3>Generated Content:</h3>
-            <div id="generatedContent"></div>
-          </div>
-        </div>
-        
-        <!-- Question Answering Tool -->
-        <div class="tool-interface" id="qaTool">
-          <h2><i class="fas fa-question-circle"></i> Question Answering</h2>
-          <p>Get accurate answers to any question</p>
-          
-          <div class="input-group">
-            <label for="questionInput">Ask your question:</label>
-            <textarea id="questionInput" placeholder="e.g., What is the capital of France?"></textarea>
-          </div>
-          
-          <button class="btn btn-primary" id="askQuestionBtn">
-            <i class="fas fa-search btn-icon"></i> Get Answer
-          </button>
-          
-          <div class="result-container" id="answerResult" style="display: none; margin-top: 20px;">
-            <h3>Answer:</h3>
-            <div id="generatedAnswer"></div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+        // Register New User
+        function register() {
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
 
-  <script>
-    // Redo.AI Server API Simulation
-    const RedoAIServer = {
-      // Simulated database
-      users: [
-        { id: 1, name: "Demo User", email: "demo@redo.ai", password: "demo123" }
-      ],
-      contentHistory: [],
-      qaHistory: [],
-      
-      // API endpoints
-      baseUrl: "https://api.redo.ai/v1",
-      
-      // Register new user
-      register: async function(name, email, password) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            // Check if email already exists
-            const exists = this.users.some(user => user.email === email);
-            if (exists) {
-              reject({ success: false, message: "Email already registered" });
-              return;
+            if (!username || !password) {
+                document.getElementById('registerError').textContent = 'Please fill all fields';
+                return;
+            }
+
+            if (users.some(u => u.username === username)) {
+                document.getElementById('registerError').textContent = 'Username already exists';
+                return;
+            }
+
+            users.push({ username, password });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Registration successful! Please login.');
+            showLogin();
+        }
+
+        // Login User
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (!user) {
+                document.getElementById('loginError').textContent = 'Invalid username or password';
+                return;
+            }
+
+            showDashboard(username);
+        }
+
+        // Send Massage
+        function sendMassage() {
+            const sender = currentUserSpan.textContent;
+            const receiver = document.getElementById('friendUsername').value.trim();
+            const text = document.getElementById('massageText').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
+            const massages = JSON.parse(localStorage.getItem('massages'));
+
+            if (!receiver || !text) {
+                document.getElementById('responseMessage').textContent = 'Please fill all fields';
+                document.getElementById('responseMessage').className = 'error';
+                return;
+            }
+
+            if (!users.some(u => u.username === receiver)) {
+                document.getElementById('responseMessage').textContent = 'User not found';
+                document.getElementById('responseMessage').className = 'error';
+                return;
+            }
+
+            massages.push({ sender, receiver, text, timestamp: new Date().toISOString() });
+            localStorage.setItem('massages', JSON.stringify(massages));
+            
+            document.getElementById('responseMessage').textContent = `Massage sent to ${receiver}!`;
+            document.getElementById('responseMessage').className = 'success';
+            document.getElementById('massageText').value = '';
+            
+            // Reload messages if receiver is current user
+            if (receiver === sender) {
+                loadMassages(sender);
+            }
+        }
+
+        // Load User's Massages
+        function loadMassages(username) {
+            const massages = JSON.parse(localStorage.getItem('massages'));
+            const userMassages = massages.filter(m => m.receiver === username);
+            
+            massagesList.innerHTML = '';
+            
+            if (userMassages.length === 0) {
+                massagesList.innerHTML = '<p>No massages yet. Send one to a friend!</p>';
+                return;
             }
             
-            // Create new user
-            const newUser = {
-              id: this.users.length + 1,
-              name,
-              email,
-              password,
-              apiKey: this.generateApiKey()
-            };
+            userMassages.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
             
-            this.users.push(newUser);
-            
-            resolve({ 
-              success: true, 
-              user: {
-                id: newUser.id,
-                name: newUser.name,
-                email: newUser.email,
-                apiKey: newUser.apiKey
-              }
+            userMassages.forEach(massage => {
+                const card = document.createElement('div');
+                card.className = 'massage-card';
+                card.innerHTML = `
+                    <h4>From: ${massage.sender}</h4>
+                    <p>${massage.text}</p>
+                    <small>${new Date(massage.timestamp).toLocaleString()}</small>
+                `;
+                massagesList.appendChild(card);
             });
-          }, 1000);
-        });
-      },
-      
-      // Login user
-      login: async function(email, password) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const user = this.users.find(u => u.email === email && u.password === password);
-            
-            if (user) {
-              resolve({
-                success: true,
-                user: {
-                  id: user.id,
-                  name: user.name,
-                  email: user.email,
-                  apiKey: user.apiKey || this.generateApiKey()
-                }
-              });
-            } else {
-              reject({ success: false, message: "Invalid email or password" });
-            }
-          }, 1000);
-        });
-      },
-      
-      // Generate content
-      generateContent: async function(prompt, apiKey) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            // In a real app, verify API key with user
-            const content = `
-              <h4>${prompt}</h4>
-              <p>This is a generated article about "${prompt}". AI-powered content creation is revolutionizing how we produce written material.</p>
-              <p>The benefits of using AI for content creation include increased efficiency, consistency in tone, and the ability to generate ideas quickly.</p>
-              <p>When implementing AI tools in your workflow, always review the generated content for accuracy and appropriateness.</p>
-            `;
-            
-            resolve({ success: true, content });
-          }, 2000);
-        });
-      },
-      
-      // Answer question
-      answerQuestion: async function(question, apiKey) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            // Simple QA simulation
-            let answer = "I don't know the answer to that question.";
-            
-            if (question.toLowerCase().includes("capital of france")) {
-              answer = "The capital of France is Paris.";
-            } else if (question.toLowerCase().includes("ai")) {
-              answer = "AI (Artificial Intelligence) refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions.";
-            } else if (question.toLowerCase().includes("benefits of ai")) {
-              answer = "The main benefits of AI include automation of repetitive tasks, data analysis, improved accuracy, and 24/7 availability.";
-            }
-            
-            resolve({ success: true, answer });
-          }, 1500);
-        });
-      },
-      
-      // Helper function to generate API key
-      generateApiKey: function() {
-        return "redo_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      }
-    };
-
-    // DOM Elements
-    const loginBtn = document.getElementById("loginBtn");
-    const heroLoginBtn = document.getElementById("heroLoginBtn");
-    const loginModal = document.getElementById("loginModal");
-    const signupModal = document.getElementById("signupModal");
-    const loginForm = document.getElementById("loginForm");
-    const signupForm = document.getElementById("signupForm");
-    const showSignup = document.getElementById("showSignup");
-    const showLogin = document.getElementById("showLogin");
-    const logoutBtn = document.getElementById("logoutBtn");
-    const dashboard = document.getElementById("dashboard");
-    const mainContent = document.querySelector("main");
-    const contentToolBtn = document.getElementById("contentToolBtn");
-    const qaToolBtn = document.getElementById("qaToolBtn");
-    const generateContentBtn = document.getElementById("generateContentBtn");
-    const askQuestionBtn = document.getElementById("askQuestionBtn");
-    const contentResult = document.getElementById("contentResult");
-    const answerResult = document.getElementById("answerResult");
-
-    // App State
-    let currentUser = null;
-
-    // Initialize the app
-    document.addEventListener("DOMContentLoaded", function() {
-      // Check if user is already logged in
-      const savedUser = localStorage.getItem("redoai_user");
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        showDashboard();
-      }
-      
-      // Set up event listeners
-      setupEventListeners();
-    });
-
-    // Set up event listeners
-    function setupEventListeners() {
-      // Login buttons
-      loginBtn.addEventListener("click", () => openModal(loginModal));
-      heroLoginBtn.addEventListener("click", () => openModal(loginModal));
-      
-      // Show signup form
-      showSignup.addEventListener("click", (e) => {
-        e.preventDefault();
-        closeModal(loginModal);
-        openModal(signupModal);
-      });
-      
-      // Show login form
-      showLogin.addEventListener("click", (e) => {
-        e.preventDefault();
-        closeModal(signupModal);
-        openModal(loginModal);
-      });
-      
-      // Form submissions
-      loginForm.addEventListener("submit", handleLogin);
-      signupForm.addEventListener("submit", handleSignup);
-      
-      // Logout
-      logoutBtn.addEventListener("click", handleLogout);
-      
-      // Tool buttons
-      contentToolBtn.addEventListener("click", () => {
-        if (!currentUser) {
-          openModal(loginModal);
-        } else {
-          document.getElementById("contentGeneratorTool").scrollIntoView();
         }
-      });
-      
-      qaToolBtn.addEventListener("click", () => {
-        if (!currentUser) {
-          openModal(loginModal);
-        } else {
-          document.getElementById("qaTool").scrollIntoView();
+
+        // Logout
+        function logout() {
+            dashboardSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         }
-      });
-      
-      // AI tool actions
-      generateContentBtn.addEventListener("click", generateContent);
-      askQuestionBtn.addEventListener("click", answerQuestion);
-    }
-
-    // Open modal
-    function openModal(modal) {
-      modal.classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
-
-    // Close modal
-    function closeModal(modal) {
-      modal.classList.remove("active");
-      document.body.style.overflow = "";
-    }
-
-    // Show dashboard
-    function showDashboard() {
-      mainContent.style.display = "none";
-      dashboard.style.display = "block";
-      
-      // Update user info
-      document.getElementById("userName").textContent = currentUser.name;
-      document.getElementById("userEmail").textContent = currentUser.email;
-      document.getElementById("userAvatar").textContent = currentUser.name.charAt(0);
-    }
-
-    // Show main content
-    function showMainContent() {
-      mainContent.style.display = "";
-      dashboard.style.display = "none";
-    }
-
-    // Handle login
-    async function handleLogin(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById("loginEmail").value;
-      const password = document.getElementById("loginPassword").value;
-      
-      try {
-        const response = await RedoAIServer.login(email, password);
-        
-        if (response.success) {
-          currentUser = response.user;
-          localStorage.setItem("redoai_user", JSON.stringify(currentUser));
-          
-          showDashboard();
-          closeModal(loginModal);
-          loginForm.reset();
-        }
-      } catch (error) {
-        alert(error.message || "Login failed. Please try again.");
-      }
-    }
-
-    // Handle signup
-    async function handleSignup(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById("signupName").value;
-      const email = document.getElementById("signupEmail").value;
-      const password = document.getElementById("signupPassword").value;
-      
-      try {
-        const response = await RedoAIServer.register(name, email, password);
-        
-        if (response.success) {
-          currentUser = response.user;
-          localStorage.setItem("redoai_user", JSON.stringify(currentUser));
-          
-          showDashboard();
-          closeModal(signupModal);
-          signupForm.reset();
-          
-          alert("Account created successfully!");
-        }
-      } catch (error) {
-        alert(error.message || "Registration failed. Please try again.");
-      }
-    }
-
-    // Handle logout
-    function handleLogout() {
-      currentUser = null;
-      localStorage.removeItem("redoai_user");
-      showMainContent();
-    }
-
-    // Generate content
-    async function generateContent() {
-      const prompt = document.getElementById("contentPrompt").value;
-      
-      if (!prompt) {
-        alert("Please enter a prompt");
-        return;
-      }
-      
-      generateContentBtn.disabled = true;
-      generateContentBtn.innerHTML = '<i class="fas fa-spinner fa-spin btn-icon"></i> Generating...';
-      
-      try {
-        const response = await RedoAIServer.generateContent(prompt, currentUser.apiKey);
-        
-        if (response.success) {
-          document.getElementById("generatedContent").innerHTML = response.content;
-          contentResult.style.display = "block";
-        }
-      } catch (error) {
-        alert("Failed to generate content. Please try again.");
-      } finally {
-        generateContentBtn.disabled = false;
-        generateContentBtn.innerHTML = '<i class="fas fa-magic btn-icon"></i> Generate Content';
-      }
-    }
-
-    // Answer question
-    async function answerQuestion() {
-      const question = document.getElementById("questionInput").value;
-      
-      if (!question) {
-        alert("Please enter a question");
-        return;
-      }
-      
-      askQuestionBtn.disabled = true;
-      askQuestionBtn.innerHTML = '<i class="fas fa-spinner fa-spin btn-icon"></i> Processing...';
-      
-      try {
-        const response = await RedoAIServer.answerQuestion(question, currentUser.apiKey);
-        
-        if (response.success) {
-          document.getElementById("generatedAnswer").textContent = response.answer;
-          answerResult.style.display = "block";
-        }
-      } catch (error) {
-        alert("Failed to get answer. Please try again.");
-      } finally {
-        askQuestionBtn.disabled = false;
-        askQuestionBtn.innerHTML = '<i class="fas fa-search btn-icon"></i> Get Answer';
-      }
-    }
-  </script>
+    </script>
 </body>
 </html>

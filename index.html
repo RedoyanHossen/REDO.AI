@@ -3,240 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenMassage | Complete Messaging</title>
+    <title>ZenMassage | Smart Messaging</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #6C63FF;
-            --secondary: #FF6584;
+            --primary-light: #9B59B6;
+            --secondary: #FF6B6B;
+            --accent: #00CED1;
             --light: #F8F9FA;
             --dark: #2D3436;
-            --success: #28A745;
-            --error: #FF5252;
-            --warning: #FFC107;
+            --success: #2ECC71;
+            --error: #FF4757;
+            --warning: #FFA502;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --text-muted: #7F8C8D;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: linear-gradient(135deg, #E0F7FA 0%, #B2EBF2 50%, #80DEEA 100%);
             min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
             display: flex;
-            min-height: 90vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 20px;
-        }
-        
-        .sidebar-header {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 20px;
-        }
-        
-        .sidebar-menu {
-            list-style: none;
-        }
-        
-        .sidebar-menu li {
-            margin-bottom: 10px;
-        }
-        
-        .sidebar-menu a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-        
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
-            text-align: center;
-        }
-        
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        
-        .content-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .user-profile {
-            display: flex;
-            align-items: center;
-        }
-        
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            margin-right: 10px;
-            font-weight: bold;
+            align-items: center;
+            padding: 20px;
         }
-        
-        /* Auth Pages */
+
+        /* Auth Container */
         .auth-container {
             width: 100%;
             max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 0.5s ease;
         }
-        
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .header {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
             padding: 25px;
             text-align: center;
+            position: relative;
         }
-        
+
         .form-container {
             padding: 30px;
         }
-        
+
         .form-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            font-size: 1.6rem;
+            margin-bottom: 8px;
             color: var(--primary);
+            font-weight: 700;
         }
-        
+
+        .form-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
-        
+
         .form-control {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 16px 20px;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
             font-size: 1rem;
+            transition: all 0.3s;
+            background: var(--card-bg);
         }
-        
+
         .btn {
-            padding: 12px;
+            width: 100%;
+            padding: 16px;
             border: none;
-            border-radius: 8px;
-            background: var(--primary);
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
             color: white;
             font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
         }
-        
+
         .btn:hover {
-            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
         }
-        
-        .btn-block {
-            width: 100%;
-        }
-        
+
         .btn-secondary {
-            background: var(--secondary);
+            background: linear-gradient(135deg, var(--secondary) 0%, #FF8E8E 100%);
         }
-        
-        .toggle-form {
+
+        .text-link {
             color: var(--primary);
             cursor: pointer;
             font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
         }
-        
-        /* Massage Cards */
-        .massage-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--primary);
+
+        .text-link:hover {
+            text-decoration: underline;
         }
-        
-        .massage-header {
+
+        /* Profile Image Upload */
+        .avatar-upload {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        .massage-sender {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .massage-time {
-            color: #777;
-            font-size: 0.8rem;
-        }
-        
-        /* Settings */
-        .settings-form {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        /* Notification Badge */
-        .badge {
-            background: var(--error);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            margin-left: 5px;
+            margin-bottom: 25px;
         }
-        
+
+        .avatar-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload-btn {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .avatar-upload-btn input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Seen Indicator */
+        .seen-indicator {
+            color: var(--success);
+            margin-left: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* Smart UI Elements */
+        .smart-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .smart-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         .hidden {
             display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Auth Container (Shown First) -->
+    <!-- Auth Container -->
     <div id="authContainer" class="auth-container">
         <div class="header">
             <h1><i class="fas fa-spa"></i> ZenMassage</h1>
@@ -245,6 +222,7 @@
         <!-- Login Form -->
         <div class="form-container" id="loginSection">
             <h2 class="form-title">Welcome Back</h2>
+            <p class="form-subtitle">Log in to continue your mindful messaging journey</p>
             
             <div class="form-group">
                 <input type="text" id="username" class="form-control" placeholder="Username">
@@ -254,166 +232,85 @@
                 <input type="password" id="password" class="form-control" placeholder="Password">
             </div>
             
-            <button class="btn btn-block" onclick="login()">Login</button>
+            <button class="btn" onclick="login()" id="loginBtn">
+                <span id="loginBtnText">Login</span>
+                <div class="spinner" id="loginSpinner"></div>
+            </button>
             
-            <p style="text-align: center; margin-top: 15px;">
+            <a href="#" class="text-link" onclick="showForgotPassword()">Forgot password?</a>
+            
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
                 Don't have an account? 
-                <span class="toggle-form" onclick="showRegister()">Register</span>
+                <a href="#" onclick="showRegister()" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                    Register here <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                </a>
             </p>
         </div>
 
         <!-- Register Form -->
         <div class="form-container hidden" id="registerSection">
             <h2 class="form-title">Create Account</h2>
+            <p class="form-subtitle">Join our community of mindful communicators</p>
+            
+            <div class="avatar-upload">
+                <div class="avatar-preview" id="avatarPreview">
+                    <img id="avatarImage" src="" alt="Profile Preview">
+                </div>
+                <label class="btn btn-secondary avatar-upload-btn">
+                    <i class="fas fa-camera"></i> Upload Photo
+                    <input type="file" id="avatarInput" accept="image/*" onchange="previewAvatar()">
+                </label>
+            </div>
             
             <div class="form-group">
                 <input type="text" id="newUsername" class="form-control" placeholder="Username">
             </div>
             
             <div class="form-group">
-                <input type="password" id="newPassword" class="form-control" placeholder="Password">
-            </div>
-            
-            <div class="form-group">
                 <input type="text" id="fullName" class="form-control" placeholder="Full Name">
             </div>
             
-            <button class="btn btn-block" onclick="register()">Register</button>
+            <div class="form-group">
+                <input type="password" id="newPassword" class="form-control" placeholder="Password">
+            </div>
             
-            <p style="text-align: center; margin-top: 15px;">
+            <button class="btn" onclick="register()" id="registerBtn">
+                <span id="registerBtnText">Register</span>
+                <div class="spinner" id="registerSpinner"></div>
+            </button>
+            
+            <p style="text-align: center; margin-top: 20px; color: var(--text-muted);">
                 Already have an account? 
-                <span class="toggle-form" onclick="showLogin()">Login</span>
+                <a href="#" onclick="showLogin()" style="color: var(--primary); font-weight: 600; text-decoration: none;">
+                    Login here <i class="fas fa-arrow-right" style="margin-left: 5px;"></i>
+                </a>
             </p>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div class="form-container hidden" id="forgotPasswordSection">
+            <h2 class="form-title">Reset Password</h2>
+            <p class="form-subtitle">Enter your username to receive a password reset link</p>
+            
+            <div class="form-group">
+                <input type="text" id="forgotUsername" class="form-control" placeholder="Username">
+            </div>
+            
+            <button class="btn" onclick="sendResetLink()" id="resetBtn">
+                <span id="resetBtnText">Send Reset Link</span>
+                <div class="spinner" id="resetSpinner"></div>
+            </button>
+            
+            <a href="#" class="text-link" onclick="showLogin()">
+                <i class="fas fa-arrow-left"></i> Back to login
+            </a>
         </div>
     </div>
 
-    <!-- Main App Container (Hidden Initially) -->
-    <div id="appContainer" class="container hidden">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h2>ZenMassage</h2>
-            </div>
-            
-            <ul class="sidebar-menu">
-                <li>
-                    <a href="#" class="active" onclick="showSection('massageSection')">
-                        <i class="fas fa-paper-plane"></i> Send Massage
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('inboxSection')">
-                        <i class="fas fa-inbox"></i> Inbox
-                        <span id="inboxBadge" class="badge hidden">0</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('sentSection')">
-                        <i class="fas fa-share-square"></i> Sent
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('settingsSection')">
-                        <i class="fas fa-cog"></i> Settings
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
-            
-            <div style="margin-top: 30px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
-                <p>Logged in as: <strong id="sidebarUsername"></strong></p>
-            </div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Massage Section -->
-            <div id="massageSection">
-                <div class="content-header">
-                    <h2>Send a Massage</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="avatarInitial"></div>
-                        <span id="currentUser"></span>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <input type="text" id="friendUsername" class="form-control" placeholder="Friend's Username">
-                </div>
-                
-                <div class="form-group">
-                    <textarea id="massageText" class="form-control" rows="4" placeholder="Your massage..."></textarea>
-                </div>
-                
-                <button class="btn btn-block" onclick="sendMassage()">Send Massage</button>
-                
-                <div id="responseMessage" style="margin-top: 15px; text-align: center;"></div>
-            </div>
-            
-            <!-- Inbox Section -->
-            <div id="inboxSection" class="hidden">
-                <div class="content-header">
-                    <h2>Your Inbox</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="inboxAvatarInitial"></div>
-                        <span id="inboxUsername"></span>
-                    </div>
-                </div>
-                
-                <div id="inboxList"></div>
-            </div>
-            
-            <!-- Sent Section -->
-            <div id="sentSection" class="hidden">
-                <div class="content-header">
-                    <h2>Sent Massages</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="sentAvatarInitial"></div>
-                        <span id="sentUsername"></span>
-                    </div>
-                </div>
-                
-                <div id="sentList"></div>
-            </div>
-            
-            <!-- Settings Section -->
-            <div id="settingsSection" class="hidden">
-                <div class="content-header">
-                    <h2>Account Settings</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="settingsAvatarInitial"></div>
-                        <span id="settingsUsername"></span>
-                    </div>
-                </div>
-                
-                <div class="settings-form">
-                    <h3 style="margin-bottom: 20px;">Change Password</h3>
-                    
-                    <div class="form-group">
-                        <label>Current Password</label>
-                        <input type="password" id="currentPassword" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" id="newPasswordSetting" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Confirm New Password</label>
-                        <input type="password" id="confirmPassword" class="form-control">
-                    </div>
-                    
-                    <button class="btn btn-block" onclick="changePassword()">Update Password</button>
-                    
-                    <div id="passwordMessage" style="margin-top: 15px; text-align: center;"></div>
-                </div>
-            </div>
-        </div>
+    <!-- Smart Notification -->
+    <div class="smart-notification" id="smartNotification">
+        <i class="fas fa-check-circle" style="color: var(--success);"></i>
+        <span id="notificationText">Message sent successfully!</span>
     </div>
 
     <script>
@@ -425,57 +322,96 @@
             localStorage.setItem('massages', JSON.stringify([]));
         }
 
+        // Current user
+        let currentUser = null;
+        let avatarFile = null;
+
         // DOM Elements
         const authContainer = document.getElementById('authContainer');
-        const appContainer = document.getElementById('appContainer');
         const loginSection = document.getElementById('loginSection');
         const registerSection = document.getElementById('registerSection');
-        const currentUserSpan = document.getElementById('currentUser');
-        const sidebarUsername = document.getElementById('sidebarUsername');
-        
-        // Current logged in user
-        let currentUser = null;
+        const forgotPasswordSection = document.getElementById('forgotPasswordSection');
+        const notification = document.getElementById('smartNotification');
 
-        // Toggle Forms
+        // Show notification
+        function showNotification(message, isSuccess = true) {
+            const icon = notification.querySelector('i');
+            notification.style.background = isSuccess ? 'white' : '#FFF6F6';
+            icon.className = isSuccess ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            icon.style.color = isSuccess ? 'var(--success)' : 'var(--error)';
+            document.getElementById('notificationText').textContent = message;
+            
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Preview avatar
+        function previewAvatar() {
+            const file = document.getElementById('avatarInput').files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('avatarImage').src = e.target.result;
+                    avatarFile = file;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Toggle forms
         function showRegister() {
             loginSection.classList.add('hidden');
+            forgotPasswordSection.classList.add('hidden');
             registerSection.classList.remove('hidden');
         }
-        
+
         function showLogin() {
             registerSection.classList.add('hidden');
+            forgotPasswordSection.classList.add('hidden');
             loginSection.classList.remove('hidden');
         }
 
-        // Register User
+        function showForgotPassword() {
+            loginSection.classList.add('hidden');
+            registerSection.classList.add('hidden');
+            forgotPasswordSection.classList.remove('hidden');
+        }
+
+        // Register user
         function register() {
             const username = document.getElementById('newUsername').value.trim();
-            const password = document.getElementById('newPassword').value.trim();
             const fullName = document.getElementById('fullName').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
             const users = JSON.parse(localStorage.getItem('users'));
 
             if (!username || !password || !fullName) {
-                alert('Please fill all fields');
+                showNotification('Please fill all fields', false);
                 return;
             }
 
             if (users.some(u => u.username === username)) {
-                alert('Username already exists');
+                showNotification('Username already exists', false);
                 return;
             }
 
-            users.push({ 
-                username, 
-                password, 
+            // Create user object
+            const user = {
+                username,
                 fullName,
-                joined: new Date().toISOString()
-            });
+                password,
+                joined: new Date().toISOString(),
+                avatar: avatarFile ? URL.createObjectURL(avatarFile) : null
+            };
+
+            users.push(user);
             localStorage.setItem('users', JSON.stringify(users));
-            alert('Registration successful! Please login.');
+            showNotification('Registration successful! Please login.');
             showLogin();
         }
 
-        // Login User
+        // Login user
         function login() {
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();
@@ -483,274 +419,37 @@
             const user = users.find(u => u.username === username && u.password === password);
 
             if (!user) {
-                alert('Invalid username or password');
+                showNotification('Invalid username or password', false);
                 return;
             }
 
-            // Set current user
             currentUser = user;
-            
-            // Switch to app
-            authContainer.classList.add('hidden');
-            appContainer.classList.remove('hidden');
-            
-            // Update UI
-            updateUserInfo();
-            loadInbox();
-            loadSent();
-            
-            // Start checking for new messages
-            setInterval(checkNewMessages, 5000);
+            showNotification(`Welcome back, ${user.fullName || user.username}!`);
+            // Here you would typically redirect to the main app page
         }
 
-        // Update user info in UI
-        function updateUserInfo() {
-            currentUserSpan.textContent = currentUser.fullName || currentUser.username;
-            sidebarUsername.textContent = currentUser.username;
-            
-            // Set avatar initials
-            const initials = (currentUser.fullName || currentUser.username)
-                .split(' ')
-                .map(n => n[0])
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-            
-            document.querySelectorAll('.user-avatar').forEach(el => {
-                el.textContent = initials;
-            });
-        }
-
-        // Show section
-        function showSection(sectionId) {
-            document.querySelectorAll('.main-content > div').forEach(section => {
-                section.classList.add('hidden');
-            });
-            document.getElementById(sectionId).classList.remove('hidden');
-            
-            // Update active menu item
-            document.querySelectorAll('.sidebar-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        // Send Massage
-        function sendMassage() {
-            const sender = currentUser.username;
-            const receiver = document.getElementById('friendUsername').value.trim();
-            const text = document.getElementById('massageText').value.trim();
+        // Send password reset link
+        function sendResetLink() {
+            const username = document.getElementById('forgotUsername').value.trim();
             const users = JSON.parse(localStorage.getItem('users'));
-            const massages = JSON.parse(localStorage.getItem('massages'));
+            const user = users.find(u => u.username === username);
 
-            if (!receiver || !text) {
-                alert('Please fill all fields');
+            if (!user) {
+                showNotification('Username not found', false);
                 return;
             }
 
-            if (!users.some(u => u.username === receiver)) {
-                alert('User not found');
-                return;
-            }
-
-            const newMassage = {
-                sender,
-                receiver,
-                text,
-                timestamp: new Date().toISOString(),
-                read: false
-            };
-            
-            massages.push(newMassage);
-            localStorage.setItem('massages', JSON.stringify(massages));
-            
-            document.getElementById('responseMessage').innerHTML = 
-                `<span style="color: var(--success);">Massage sent to ${receiver}!</span>`;
-            document.getElementById('massageText').value = '';
-            
-            // Update sent list
-            loadSent();
+            // In a real app, you would send an email here
+            showNotification(`Password reset link sent to ${username}'s email`);
+            setTimeout(() => {
+                showLogin();
+            }, 2000);
         }
 
-        // Load Inbox
-        function loadInbox() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const inbox = massages.filter(m => m.receiver === currentUser.username);
-            
-            const inboxList = document.getElementById('inboxList');
-            inboxList.innerHTML = '';
-            
-            if (inbox.length === 0) {
-                inboxList.innerHTML = '<p>No messages in your inbox yet.</p>';
-                return;
-            }
-            
-            // Sort by newest first
-            inbox.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            inbox.forEach(msg => {
-                const senderUser = JSON.parse(localStorage.getItem('users'))
-                    .find(u => u.username === msg.sender);
-                
-                const card = document.createElement('div');
-                card.className = 'massage-card';
-                card.innerHTML = `
-                    <div class="massage-header">
-                        <div class="massage-sender">
-                            From: ${senderUser?.fullName || msg.sender}
-                        </div>
-                        <div class="massage-time">
-                            ${formatDate(msg.timestamp)}
-                        </div>
-                    </div>
-                    <p>${msg.text}</p>
-                `;
-                inboxList.appendChild(card);
-                
-                // Mark as read
-                if (!msg.read) {
-                    msg.read = true;
-                    localStorage.setItem('massages', JSON.stringify(massages));
-                }
-            });
-            
-            // Update badge
-            updateInboxBadge();
-        }
-
-        // Load Sent
-        function loadSent() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const sent = massages.filter(m => m.sender === currentUser.username);
-            
-            const sentList = document.getElementById('sentList');
-            sentList.innerHTML = '';
-            
-            if (sent.length === 0) {
-                sentList.innerHTML = '<p>You haven\'t sent any messages yet.</p>';
-                return;
-            }
-            
-            // Sort by newest first
-            sent.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            sent.forEach(msg => {
-                const receiverUser = JSON.parse(localStorage.getItem('users'))
-                    .find(u => u.username === msg.receiver);
-                
-                const card = document.createElement('div');
-                card.className = 'massage-card';
-                card.innerHTML = `
-                    <div class="massage-header">
-                        <div class="massage-sender">
-                            To: ${receiverUser?.fullName || msg.receiver}
-                        </div>
-                        <div class="massage-time">
-                            ${formatDate(msg.timestamp)}
-                        </div>
-                    </div>
-                    <p>${msg.text}</p>
-                `;
-                sentList.appendChild(card);
-            });
-        }
-
-        // Change Password
-        function changePassword() {
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPasswordSetting').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">Please fill all fields</span>';
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">New passwords don\'t match</span>';
-                return;
-            }
-            
-            if (currentPassword !== currentUser.password) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">Current password is incorrect</span>';
-                return;
-            }
-            
-            // Update password
-            const users = JSON.parse(localStorage.getItem('users'));
-            const userIndex = users.findIndex(u => u.username === currentUser.username);
-            users[userIndex].password = newPassword;
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            // Update current user
-            currentUser.password = newPassword;
-            
-            document.getElementById('passwordMessage').innerHTML = 
-                '<span style="color: var(--success);">Password updated successfully!</span>';
-            
-            // Clear fields
-            document.getElementById('currentPassword').value = '';
-            document.getElementById('newPasswordSetting').value = '';
-            document.getElementById('confirmPassword').value = '';
-        }
-
-        // Check for new messages
-        function checkNewMessages() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const unreadCount = massages.filter(m => 
-                m.receiver === currentUser.username && !m.read
-            ).length;
-            
-            if (unreadCount > 0) {
-                updateInboxBadge();
-                
-                // If inbox is currently visible, refresh it
-                if (!document.getElementById('inboxSection').classList.contains('hidden')) {
-                    loadInbox();
-                }
-            }
-        }
-
-        // Update inbox badge
-        function updateInboxBadge() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const unreadCount = massages.filter(m => 
-                m.receiver === currentUser.username && !m.read
-            ).length;
-            
-            const badge = document.getElementById('inboxBadge');
-            if (unreadCount > 0) {
-                badge.classList.remove('hidden');
-                badge.textContent = unreadCount;
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        // Format date
-        function formatDate(isoString) {
-            const date = new Date(isoString);
-            return date.toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-            });
-        }
-
-        // Logout
-        function logout() {
-            currentUser = null;
-            appContainer.classList.add('hidden');
-            authContainer.classList.remove('hidden');
-            showLogin();
-            
-            // Clear fields
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
+        // For demonstration - this would be in your messaging component
+        function markMessageAsSeen(messageId) {
+            // In a real implementation, this would update the message status
+            return `<i class="fas fa-check seen-indicator" title="Seen"></i>`;
         }
     </script>
 </body>

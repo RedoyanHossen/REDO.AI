@@ -3,44 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redo.AI - AI Tools Platform</title>
+  <title>Redo.AI - Free AI Tools Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Color Grading Variables */
+    /* Modern Color Grading */
     :root {
-      --primary-base: #6C5CE7;
-      --primary-dark: #5649c7;
-      --primary-light: #8477f0;
+      --primary-900: #4a3fd1;
+      --primary-800: #5a4fd6;
+      --primary-700: #6a5fdb;
+      --primary-600: #7a6fe0;
+      --primary-500: #8a7fe5;
+      --primary-400: #9a8fea;
+      --primary-300: #aa9fef;
+      --primary-200: #baaff4;
+      --primary-100: #cabff9;
+      --primary-50: #dacffe;
       
-      --secondary-base: #00b894;
-      --secondary-dark: #00a383;
-      --secondary-light: #26c9a3;
+      --secondary-900: #00a383;
+      --secondary-800: #00b08d;
+      --secondary-700: #00bd97;
+      --secondary-600: #00caa1;
+      --secondary-500: #00d7ab;
+      --secondary-400: #26dfb5;
+      --secondary-300: #4de7bf;
+      --secondary-200: #73efc9;
+      --secondary-100: #9af7d3;
+      --secondary-50: #c0ffdd;
       
-      --accent-base: #fd79a8;
-      --accent-dark: #fc5d97;
-      --accent-light: #fe95bc;
+      --accent-900: #e84393;
+      --accent-800: #ea559e;
+      --accent-700: #ec67a9;
+      --accent-600: #ee79b4;
+      --accent-500: #f08bbf;
+      --accent-400: #f29dca;
+      --accent-300: #f4afd5;
+      --accent-200: #f6c1e0;
+      --accent-100: #f8d3eb;
+      --accent-50: #fae5f6;
       
-      --dark-base: #2d3436;
-      --dark-dark: #1e2223;
-      --dark-light: #3d4547;
+      --dark-900: #1a1a2e;
+      --dark-800: #2a2a3e;
+      --dark-700: #3a3a4e;
+      --dark-600: #4a4a5e;
+      --dark-500: #5a5a6e;
+      --dark-400: #6a6a7e;
+      --dark-300: #7a7a8e;
+      --dark-200: #8a8a9e;
+      --dark-100: #9a9aae;
+      --dark-50: #aaaabe;
       
-      --light-base: #f5f6fa;
-      --light-dark: #dfe6e9;
-      --light-light: #ffffff;
+      --light-900: #e6e6ea;
+      --light-800: #eaeaf0;
+      --light-700: #eeeeee;
+      --light-600: #f2f2f2;
+      --light-500: #f6f6f6;
+      --light-400: #fafafa;
+      --light-300: #fefefe;
+      --light-200: #ffffff;
+      --light-100: #ffffff;
+      --light-50: #ffffff;
       
-      --text-base: #2d3436;
-      --text-dark: #1e2223;
-      --text-light: #636e72;
+      --gradient-primary: linear-gradient(135deg, var(--primary-600), var(--primary-400));
+      --gradient-secondary: linear-gradient(135deg, var(--secondary-600), var(--secondary-400));
+      --gradient-accent: linear-gradient(135deg, var(--accent-600), var(--accent-400));
       
-      /* Gradients */
-      --primary-gradient: linear-gradient(135deg, var(--primary-base), var(--primary-dark));
-      --secondary-gradient: linear-gradient(135deg, var(--secondary-base), var(--secondary-dark));
-      --accent-gradient: linear-gradient(135deg, var(--accent-base), var(--accent-dark));
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+      --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
       
-      /* Shadows */
-      --soft-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --hard-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-      --text-glow: 0 2px 10px rgba(108, 92, 231, 0.3);
+      --text-primary: var(--dark-900);
+      --text-secondary: var(--dark-600);
+      --text-tertiary: var(--dark-400);
     }
 
     /* Base Styles */
@@ -52,21 +87,30 @@
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background-color: var(--light-base);
-      color: var(--text-base);
+      background-color: var(--light-200);
+      color: var(--text-primary);
       line-height: 1.6;
-      overflow-x: hidden;
     }
 
     /* Typography */
-    h1, h2, h3, h4 {
+    h1, h2, h3, h4, h5, h6 {
       font-weight: 700;
       line-height: 1.2;
     }
 
+    h1 { font-size: 3rem; }
+    h2 { font-size: 2.5rem; }
+    h3 { font-size: 2rem; }
+    h4 { font-size: 1.5rem; }
+
     p {
       font-weight: 400;
-      color: var(--text-light);
+      color: var(--text-secondary);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
 
     /* Layout Components */
@@ -78,7 +122,7 @@
     }
 
     .section {
-      padding: 80px 0;
+      padding: 100px 0;
     }
 
     .section-header {
@@ -87,11 +131,9 @@
     }
 
     .section-title {
-      font-size: 2.5rem;
-      color: var(--dark-base);
-      margin-bottom: 15px;
       position: relative;
       display: inline-block;
+      margin-bottom: 20px;
     }
 
     .section-title::after {
@@ -102,7 +144,7 @@
       transform: translateX(-50%);
       width: 80px;
       height: 4px;
-      background: var(--primary-gradient);
+      background: var(--gradient-primary);
       border-radius: 2px;
     }
 
@@ -110,6 +152,7 @@
       max-width: 700px;
       margin: 0 auto;
       font-size: 1.1rem;
+      color: var(--text-secondary);
     }
 
     /* Buttons */
@@ -122,63 +165,63 @@
       font-weight: 600;
       text-decoration: none;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       border: none;
       position: relative;
       overflow: hidden;
     }
 
     .btn-primary {
-      background: var(--primary-gradient);
+      background: var(--gradient-primary);
       color: white;
-      box-shadow: var(--soft-shadow);
+      box-shadow: var(--shadow-md);
     }
 
     .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--hard-shadow);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
-    .btn-primary::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-      );
-      transition: 0.5s;
-    }
-
-    .btn-primary:hover::before {
-      left: 100%;
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-md);
     }
 
     .btn-secondary {
-      background: var(--secondary-gradient);
+      background: var(--gradient-secondary);
       color: white;
-      box-shadow: var(--soft-shadow);
+      box-shadow: var(--shadow-md);
     }
 
     .btn-secondary:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--hard-shadow);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-accent {
+      background: var(--gradient-accent);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-accent:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     .btn-outline {
       background: transparent;
-      color: var(--primary-base);
-      border: 2px solid var(--primary-base);
+      color: var(--primary-600);
+      border: 2px solid var(--primary-600);
     }
 
     .btn-outline:hover {
-      background: var(--primary-base);
+      background: var(--primary-600);
       color: white;
+    }
+
+    .btn-icon {
+      margin-right: 8px;
     }
 
     /* Header & Navigation */
@@ -188,10 +231,11 @@
       left: 0;
       width: 100%;
       padding: 20px 0;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: var(--soft-shadow);
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: var(--shadow-sm);
       z-index: 1000;
       backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
     }
 
     .header-container {
@@ -208,14 +252,14 @@
 
     .logo-icon {
       font-size: 2rem;
-      color: var(--primary-base);
+      color: var(--primary-600);
       margin-right: 10px;
     }
 
     .logo-text {
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--dark-base);
+      color: var(--dark-900);
     }
 
     .nav-links {
@@ -229,14 +273,21 @@
 
     .nav-links a {
       text-decoration: none;
-      color: var(--text-base);
+      color: var(--text-secondary);
       font-weight: 500;
-      transition: color 0.3s ease;
+      transition: all 0.3s ease;
       position: relative;
+      display: flex;
+      align-items: center;
     }
 
     .nav-links a:hover {
-      color: var(--primary-base);
+      color: var(--primary-600);
+    }
+
+    .nav-links i {
+      margin-right: 8px;
+      font-size: 1.1rem;
     }
 
     .nav-links a::after {
@@ -246,7 +297,7 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: var(--primary-gradient);
+      background: var(--gradient-primary);
       transition: width 0.3s ease;
     }
 
@@ -266,7 +317,7 @@
     /* Hero Section */
     .hero {
       padding: 180px 0 100px;
-      background: var(--light-base);
+      background: var(--light-100);
       position: relative;
       overflow: hidden;
     }
@@ -297,13 +348,14 @@
     .hero-title {
       font-size: 3.5rem;
       margin-bottom: 20px;
-      color: var(--dark-base);
+      color: var(--dark-900);
+      line-height: 1.1;
     }
 
     .hero-subtitle {
       font-size: 1.2rem;
       margin-bottom: 30px;
-      color: var(--text-light);
+      color: var(--text-secondary);
       max-width: 600px;
     }
 
@@ -321,7 +373,7 @@
       width: 100%;
       max-width: 600px;
       border-radius: 20px;
-      box-shadow: var(--hard-shadow);
+      box-shadow: var(--shadow-xl);
       transform: perspective(1000px) rotateY(-10deg);
       transition: transform 0.5s ease;
     }
@@ -331,6 +383,43 @@
     }
 
     /* AI Tools Section */
+    .tools-tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+      border-bottom: 1px solid var(--light-600);
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--text-secondary);
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn.active {
+      color: var(--primary-600);
+    }
+
+    .tab-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: var(--gradient-primary);
+      transition: width 0.3s ease;
+    }
+
+    .tab-btn.active::after {
+      width: 100%;
+    }
+
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -341,14 +430,14 @@
       background: white;
       border-radius: 15px;
       overflow: hidden;
-      box-shadow: var(--soft-shadow);
-      transition: all 0.3s ease;
+      box-shadow: var(--shadow-md);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       position: relative;
     }
 
     .tool-card:hover {
       transform: translateY(-10px);
-      box-shadow: var(--hard-shadow);
+      box-shadow: var(--shadow-xl);
     }
 
     .tool-card::before {
@@ -358,12 +447,13 @@
       left: 0;
       width: 100%;
       height: 5px;
-      background: var(--primary-gradient);
+      background: var(--gradient-primary);
     }
 
     .tool-image {
       height: 200px;
       overflow: hidden;
+      position: relative;
     }
 
     .tool-image img {
@@ -377,6 +467,19 @@
       transform: scale(1.1);
     }
 
+    .tool-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: var(--gradient-secondary);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-sm);
+    }
+
     .tool-content {
       padding: 25px;
     }
@@ -384,12 +487,19 @@
     .tool-title {
       font-size: 1.5rem;
       margin-bottom: 10px;
-      color: var(--dark-base);
+      color: var(--dark-900);
+      display: flex;
+      align-items: center;
+    }
+
+    .tool-icon {
+      margin-right: 10px;
+      color: var(--primary-600);
     }
 
     .tool-description {
       margin-bottom: 20px;
-      color: var(--text-light);
+      color: var(--text-secondary);
     }
 
     .tool-footer {
@@ -398,9 +508,9 @@
       align-items: center;
     }
 
-    .tool-price {
-      font-weight: 700;
-      color: var(--primary-base);
+    .tool-actions {
+      display: flex;
+      gap: 10px;
     }
 
     /* Features Section */
@@ -412,28 +522,31 @@
 
     .feature-card {
       background: white;
-      padding: 30px;
+      padding: 40px 30px;
       border-radius: 15px;
-      box-shadow: var(--soft-shadow);
+      box-shadow: var(--shadow-md);
       transition: all 0.3s ease;
       text-align: center;
     }
 
     .feature-card:hover {
       transform: translateY(-10px);
-      box-shadow: var(--hard-shadow);
+      box-shadow: var(--shadow-xl);
     }
 
     .feature-icon {
       font-size: 3rem;
-      color: var(--primary-base);
       margin-bottom: 20px;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .feature-title {
       font-size: 1.5rem;
       margin-bottom: 15px;
-      color: var(--dark-base);
+      color: var(--dark-900);
     }
 
     /* Login/Signup Modal */
@@ -464,7 +577,7 @@
       width: 100%;
       max-width: 500px;
       padding: 40px;
-      box-shadow: var(--hard-shadow);
+      box-shadow: var(--shadow-2xl);
       transform: translateY(20px);
       transition: all 0.3s ease;
       position: relative;
@@ -479,13 +592,13 @@
       top: 20px;
       right: 20px;
       font-size: 1.5rem;
-      color: var(--text-light);
+      color: var(--text-secondary);
       cursor: pointer;
       transition: color 0.3s ease;
     }
 
     .close-modal:hover {
-      color: var(--primary-base);
+      color: var(--primary-600);
     }
 
     .auth-header {
@@ -495,12 +608,12 @@
 
     .auth-title {
       font-size: 2rem;
-      color: var(--dark-base);
+      color: var(--dark-900);
       margin-bottom: 10px;
     }
 
     .auth-subtitle {
-      color: var(--text-light);
+      color: var(--text-secondary);
     }
 
     .auth-form .form-group {
@@ -511,20 +624,20 @@
       display: block;
       margin-bottom: 8px;
       font-weight: 500;
-      color: var(--dark-base);
+      color: var(--dark-900);
     }
 
     .auth-form input {
       width: 100%;
       padding: 12px 15px;
-      border: 1px solid var(--light-dark);
+      border: 1px solid var(--light-600);
       border-radius: 8px;
       font-size: 1rem;
       transition: all 0.3s ease;
     }
 
     .auth-form input:focus {
-      border-color: var(--primary-base);
+      border-color: var(--primary-600);
       box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
       outline: none;
     }
@@ -535,11 +648,11 @@
     }
 
     .auth-footer p {
-      color: var(--text-light);
+      color: var(--text-secondary);
     }
 
     .auth-footer a {
-      color: var(--primary-base);
+      color: var(--primary-600);
       text-decoration: none;
       font-weight: 500;
     }
@@ -570,7 +683,7 @@
       width: 50px;
       height: 50px;
       border-radius: 50%;
-      background: var(--primary-gradient);
+      background: var(--gradient-primary);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -581,34 +694,107 @@
 
     .user-name {
       font-weight: 600;
-      color: var(--dark-base);
+      color: var(--dark-900);
     }
 
     .user-email {
       font-size: 0.9rem;
-      color: var(--text-light);
+      color: var(--text-secondary);
     }
 
     .logout-btn {
-      background: var(--light-dark);
-      color: var(--text-base);
+      background: var(--light-600);
+      color: var(--text-primary);
       padding: 8px 15px;
       border-radius: 8px;
       font-weight: 500;
       cursor: pointer;
       transition: all 0.3s ease;
+      border: none;
     }
 
     .logout-btn:hover {
-      background: var(--primary-base);
+      background: var(--primary-600);
       color: white;
+    }
+
+    /* Tool Interface */
+    .tool-interface {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 30px;
+    }
+
+    .tool-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .tool-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .tool-title i {
+      margin-right: 10px;
+      font-size: 1.5rem;
+      color: var(--primary-600);
+    }
+
+    .tool-body {
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .input-group textarea {
+      width: 100%;
+      min-height: 150px;
+      padding: 15px;
+      border: 1px solid var(--light-600);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1rem;
+      resize: vertical;
+    }
+
+    .input-group textarea:focus {
+      border-color: var(--primary-600);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+      outline: none;
+    }
+
+    .tool-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
+    .result-container {
+      background: var(--light-100);
+      border-radius: 8px;
+      padding: 20px;
+      margin-top: 20px;
+      border: 1px dashed var(--light-600);
     }
 
     /* Footer */
     footer {
-      background: var(--dark-base);
+      background: var(--dark-900);
       color: white;
-      padding: 60px 0 30px;
+      padding: 80px 0 30px;
     }
 
     .footer-container {
@@ -626,7 +812,7 @@
 
     .footer-logo-icon {
       font-size: 1.8rem;
-      color: var(--primary-base);
+      color: var(--primary-600);
       margin-right: 10px;
     }
 
@@ -652,7 +838,7 @@
     }
 
     .footer-social a:hover {
-      color: var(--primary-base);
+      color: var(--primary-600);
     }
 
     .footer-links h3 {
@@ -676,7 +862,7 @@
     }
 
     .footer-links a:hover {
-      color: var(--primary-base);
+      color: var(--primary-600);
     }
 
     .footer-bottom {
@@ -706,6 +892,10 @@
       .hero-title {
         font-size: 2.8rem;
       }
+      
+      .section {
+        padding: 80px 0;
+      }
     }
 
     @media (max-width: 768px) {
@@ -729,6 +919,14 @@
       .btn {
         width: 100%;
       }
+      
+      .tools-tabs {
+        flex-wrap: wrap;
+      }
+      
+      .tab-btn {
+        padding: 8px 16px;
+      }
     }
 
     @media (max-width: 576px) {
@@ -742,6 +940,10 @@
       
       .auth-modal {
         padding: 30px 20px;
+      }
+      
+      .footer-container {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -758,15 +960,19 @@
       </a>
       
       <ul class="nav-links">
-        <li><a href="#tools">AI Tools</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#about">About</a></li>
+        <li><a href="#tools"><i class="fas fa-cubes"></i> AI Tools</a></li>
+        <li><a href="#features"><i class="fas fa-star"></i> Features</a></li>
+        <li><a href="#pricing"><i class="fas fa-tag"></i> Pricing</a></li>
+        <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
       </ul>
       
       <div class="auth-buttons">
-        <button class="btn btn-outline" id="loginBtn">Login</button>
-        <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+        <button class="btn btn-outline" id="loginBtn">
+          <i class="fas fa-sign-in-alt btn-icon"></i> Login
+        </button>
+        <button class="btn btn-primary" id="signupBtn">
+          <i class="fas fa-user-plus btn-icon"></i> Sign Up
+        </button>
       </div>
     </div>
   </header>
@@ -775,11 +981,15 @@
   <section class="hero">
     <div class="container hero-content">
       <div class="hero-text">
-        <h1 class="hero-title">Supercharge Your Workflow with AI</h1>
-        <p class="hero-subtitle">Redo.AI provides cutting-edge artificial intelligence tools to help you work smarter, faster, and more creatively.</p>
+        <h1 class="hero-title">Unlock the Power of AI for Free</h1>
+        <p class="hero-subtitle">Redo.AI provides cutting-edge artificial intelligence tools to help you work smarter, faster, and more creatively - completely free!</p>
         <div class="hero-buttons">
-          <button class="btn btn-primary">Explore Tools</button>
-          <button class="btn btn-outline">Watch Demo</button>
+          <button class="btn btn-primary">
+            <i class="fas fa-rocket btn-icon"></i> Get Started
+          </button>
+          <button class="btn btn-outline">
+            <i class="fas fa-play-circle btn-icon"></i> Watch Demo
+          </button>
         </div>
       </div>
       <div class="hero-image">
@@ -792,52 +1002,134 @@
   <section class="section" id="tools">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Our AI Tools</h2>
-        <p class="section-subtitle">Discover our powerful suite of artificial intelligence tools designed to transform your workflow</p>
+        <h2 class="section-title">Free AI Tools</h2>
+        <p class="section-subtitle">Explore our powerful suite of artificial intelligence tools available for free</p>
+      </div>
+      
+      <div class="tools-tabs">
+        <button class="tab-btn active" data-category="all">All Tools</button>
+        <button class="tab-btn" data-category="writing">Writing</button>
+        <button class="tab-btn" data-category="image">Image</button>
+        <button class="tab-btn" data-category="code">Code</button>
       </div>
       
       <div class="tools-grid">
-        <!-- AI Tool 1 -->
-        <div class="tool-card">
+        <!-- AI Tool 1 - Content Generator -->
+        <div class="tool-card" data-category="writing">
           <div class="tool-image">
             <img src="https://images.unsplash.com/photo-1655720828012-585b4245fb6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Content Generator">
+            <div class="tool-badge">FREE</div>
           </div>
           <div class="tool-content">
-            <h3 class="tool-title">Content Generator</h3>
-            <p class="tool-description">Create high-quality content in seconds with our advanced AI writing assistant.</p>
+            <h3 class="tool-title">
+              <i class="fas fa-pen-fancy tool-icon"></i> Content Generator
+            </h3>
+            <p class="tool-description">Create high-quality content in seconds with our advanced AI writing assistant. Perfect for blogs, articles, and marketing copy.</p>
             <div class="tool-footer">
-              <span class="tool-price">$29/month</span>
-              <button class="btn btn-primary">Try Now</button>
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
             </div>
           </div>
         </div>
         
-        <!-- AI Tool 2 -->
-        <div class="tool-card">
+        <!-- AI Tool 2 - Image Creator -->
+        <div class="tool-card" data-category="image">
           <div class="tool-image">
             <img src="https://images.unsplash.com/photo-1677442135139-34e8d7f43a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Image Creator">
+            <div class="tool-badge">FREE</div>
           </div>
           <div class="tool-content">
-            <h3 class="tool-title">Image Creator</h3>
-            <p class="tool-description">Generate stunning visuals from text descriptions with our AI art generator.</p>
+            <h3 class="tool-title">
+              <i class="fas fa-image tool-icon"></i> Image Creator
+            </h3>
+            <p class="tool-description">Generate stunning visuals from text descriptions with our AI art generator. Create logos, illustrations, and more.</p>
             <div class="tool-footer">
-              <span class="tool-price">$39/month</span>
-              <button class="btn btn-primary">Try Now</button>
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
             </div>
           </div>
         </div>
         
-        <!-- AI Tool 3 -->
-        <div class="tool-card">
+        <!-- AI Tool 3 - Code Assistant -->
+        <div class="tool-card" data-category="code">
           <div class="tool-image">
             <img src="https://images.unsplash.com/photo-1677442135139-34e8d7f43a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Code Assistant">
+            <div class="tool-badge">FREE</div>
           </div>
           <div class="tool-content">
-            <h3 class="tool-title">Code Assistant</h3>
-            <p class="tool-description">Write better code faster with AI-powered suggestions and auto-completion.</p>
+            <h3 class="tool-title">
+              <i class="fas fa-code tool-icon"></i> Code Assistant
+            </h3>
+            <p class="tool-description">Write better code faster with AI-powered suggestions and auto-completion. Supports multiple programming languages.</p>
             <div class="tool-footer">
-              <span class="tool-price">$49/month</span>
-              <button class="btn btn-primary">Try Now</button>
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Tool 4 - Text Summarizer -->
+        <div class="tool-card" data-category="writing">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1581093450021-4a7360e9a6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Text Summarizer">
+            <div class="tool-badge">FREE</div>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">
+              <i class="fas fa-file-contract tool-icon"></i> Text Summarizer
+            </h3>
+            <p class="tool-description">Quickly summarize long articles, documents, or research papers with our AI-powered summarization tool.</p>
+            <div class="tool-footer">
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Tool 5 - Grammar Checker -->
+        <div class="tool-card" data-category="writing">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1581093450021-4a7360e9a6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Grammar Checker">
+            <div class="tool-badge">FREE</div>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">
+              <i class="fas fa-spell-check tool-icon"></i> Grammar Checker
+            </h3>
+            <p class="tool-description">Improve your writing with our advanced grammar and style checker. Get suggestions for better clarity and readability.</p>
+            <div class="tool-footer">
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- AI Tool 6 - Chatbot -->
+        <div class="tool-card" data-category="writing">
+          <div class="tool-image">
+            <img src="https://images.unsplash.com/photo-1581093450021-4a7360e9a6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80" alt="AI Chatbot">
+            <div class="tool-badge">FREE</div>
+          </div>
+          <div class="tool-content">
+            <h3 class="tool-title">
+              <i class="fas fa-comments tool-icon"></i> AI Chatbot
+            </h3>
+            <p class="tool-description">Interact with our advanced AI chatbot for answers, ideas, and creative brainstorming.</p>
+            <div class="tool-footer">
+              <div class="tool-actions">
+                <button class="btn btn-primary">Use Tool</button>
+                <button class="btn btn-outline">Details</button>
+              </div>
             </div>
           </div>
         </div>
@@ -846,7 +1138,7 @@
   </section>
 
   <!-- Features Section -->
-  <section class="section" id="features" style="background-color: var(--light-dark);">
+  <section class="section" id="features" style="background-color: var(--light-100);">
     <div class="container">
       <div class="section-header">
         <h2 class="section-title">Why Choose Redo.AI</h2>
@@ -866,7 +1158,7 @@
         <!-- Feature 2 -->
         <div class="feature-card">
           <div class="feature-icon">
-            <i class="fas fa-shield-alt"></i>
+            <i class="fas fa-lock"></i>
           </div>
           <h3 class="feature-title">Secure & Private</h3>
           <p>Your data is encrypted and never shared with third parties.</p>
@@ -879,6 +1171,33 @@
           </div>
           <h3 class="feature-title">Constantly Improving</h3>
           <p>Our AI models learn and improve with every interaction.</p>
+        </div>
+        
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-dollar-sign"></i>
+          </div>
+          <h3 class="feature-title">Free Forever</h3>
+          <p>Access powerful AI tools without any cost or hidden fees.</p>
+        </div>
+        
+        <!-- Feature 5 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-user-friends"></i>
+          </div>
+          <h3 class="feature-title">User-Friendly</h3>
+          <p>Designed for everyone, no technical skills required.</p>
+        </div>
+        
+        <!-- Feature 6 -->
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="fas fa-sync-alt"></i>
+          </div>
+          <h3 class="feature-title">Always Available</h3>
+          <p>24/7 access to all our AI tools from anywhere.</p>
         </div>
       </div>
     </div>
@@ -897,15 +1216,17 @@
       <form class="auth-form" id="loginForm">
         <div class="form-group">
           <label for="loginEmail">Email Address</label>
-          <input type="email" id="loginEmail" required>
+          <input type="email" id="loginEmail" required placeholder="Enter your email">
         </div>
         
         <div class="form-group">
           <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" required>
+          <input type="password" id="loginPassword" required placeholder="Enter your password">
         </div>
         
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          <i class="fas fa-sign-in-alt btn-icon"></i> Login
+        </button>
         
         <div class="auth-footer">
           <p>Don't have an account? <a href="#" id="switchToSignup">Sign up</a></p>
@@ -927,25 +1248,27 @@
       <form class="auth-form" id="signupForm">
         <div class="form-group">
           <label for="signupName">Full Name</label>
-          <input type="text" id="signupName" required>
+          <input type="text" id="signupName" required placeholder="Enter your full name">
         </div>
         
         <div class="form-group">
           <label for="signupEmail">Email Address</label>
-          <input type="email" id="signupEmail" required>
+          <input type="email" id="signupEmail" required placeholder="Enter your email">
         </div>
         
         <div class="form-group">
           <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" required>
+          <input type="password" id="signupPassword" required placeholder="Create a password">
         </div>
         
         <div class="form-group">
           <label for="signupConfirm">Confirm Password</label>
-          <input type="password" id="signupConfirm" required>
+          <input type="password" id="signupConfirm" required placeholder="Confirm your password">
         </div>
         
-        <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">
+          <i class="fas fa-user-plus btn-icon"></i> Create Account
+        </button>
         
         <div class="auth-footer">
           <p>Already have an account? <a href="#" id="switchToLogin">Login</a></p>
@@ -966,11 +1289,66 @@
               <div class="user-email" id="userEmail">john@example.com</div>
             </div>
           </div>
-          <button class="logout-btn" id="logoutBtn">Logout</button>
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </button>
         </div>
         
         <h2>Your AI Tools Dashboard</h2>
-        <!-- Dashboard content would go here -->
+        
+        <!-- Content Generator Tool -->
+        <div class="tool-interface">
+          <div class="tool-header">
+            <div class="tool-title">
+              <i class="fas fa-pen-fancy"></i> Content Generator
+            </div>
+          </div>
+          
+          <div class="tool-body">
+            <div class="input-group">
+              <label for="contentPrompt">Enter your prompt or topic:</label>
+              <textarea id="contentPrompt" placeholder="e.g., Write a blog post about the benefits of AI in healthcare"></textarea>
+            </div>
+            
+            <div class="tool-actions">
+              <button class="btn btn-primary" id="generateContentBtn">
+                <i class="fas fa-magic btn-icon"></i> Generate Content
+              </button>
+            </div>
+            
+            <div class="result-container" id="contentResult" style="display: none;">
+              <h4>Generated Content:</h4>
+              <div id="generatedContent"></div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Image Generator Tool -->
+        <div class="tool-interface">
+          <div class="tool-header">
+            <div class="tool-title">
+              <i class="fas fa-image"></i> Image Generator
+            </div>
+          </div>
+          
+          <div class="tool-body">
+            <div class="input-group">
+              <label for="imagePrompt">Describe the image you want to generate:</label>
+              <textarea id="imagePrompt" placeholder="e.g., A futuristic cityscape at sunset with flying cars"></textarea>
+            </div>
+            
+            <div class="tool-actions">
+              <button class="btn btn-primary" id="generateImageBtn">
+                <i class="fas fa-magic btn-icon"></i> Generate Image
+              </button>
+            </div>
+            
+            <div class="result-container" id="imageResult" style="display: none;">
+              <h4>Generated Image:</h4>
+              <div id="generatedImage"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </div>
@@ -998,30 +1376,30 @@
         <div class="footer-links">
           <h3>Products</h3>
           <ul>
-            <li><a href="#">AI Content Generator</a></li>
-            <li><a href="#">AI Image Creator</a></li>
-            <li><a href="#">AI Code Assistant</a></li>
-            <li><a href="#">Pricing</a></li>
+            <li><a href="#"><i class="fas fa-pen-fancy"></i> Content Generator</a></li>
+            <li><a href="#"><i class="fas fa-image"></i> Image Creator</a></li>
+            <li><a href="#"><i class="fas fa-code"></i> Code Assistant</a></li>
+            <li><a href="#"><i class="fas fa-tag"></i> Pricing</a></li>
           </ul>
         </div>
         
         <div class="footer-links">
           <h3>Company</h3>
           <ul>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+            <li><a href="#"><i class="fas fa-briefcase"></i> Careers</a></li>
+            <li><a href="#"><i class="fas fa-blog"></i> Blog</a></li>
+            <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
           </ul>
         </div>
         
         <div class="footer-links">
           <h3>Resources</h3>
           <ul>
-            <li><a href="#">Documentation</a></li>
-            <li><a href="#">API Reference</a></li>
-            <li><a href="#">Community</a></li>
-            <li><a href="#">Support</a></li>
+            <li><a href="#"><i class="fas fa-book"></i> Documentation</a></li>
+            <li><a href="#"><i class="fas fa-code-branch"></i> API Reference</a></li>
+            <li><a href="#"><i class="fas fa-users"></i> Community</a></li>
+            <li><a href="#"><i class="fas fa-question-circle"></i> Support</a></li>
           </ul>
         </div>
       </div>
@@ -1033,62 +1411,202 @@
   </footer>
 
   <script>
-    // Simulated API
+    // Redo.AI API Implementation
     const RedoAI = {
+      // Simulated database
       users: [],
+      contentHistory: [],
+      imageHistory: [],
       
-      register: function(name, email, password) {
+      // API Endpoints
+      baseUrl: 'https://api.redo.ai/v1',
+      
+      // Register new user
+      register: async function(name, email, password) {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            // Check if user already exists
+            // Validate inputs
+            if (!name || !email || !password) {
+              reject({ success: false, message: 'All fields are required' });
+              return;
+            }
+            
+            // Check if email is already registered
             const userExists = this.users.some(user => user.email === email);
             if (userExists) {
               reject({ success: false, message: 'Email already registered' });
               return;
             }
             
-            // Create new user
-            const newUser = {
-              id: Date.now(),
-              name,
-              email,
-              password, // In real app, this would be hashed
-              createdAt: new Date().toISOString()
-            };
-            
-            this.users.push(newUser);
-            resolve({ success: true, user: newUser });
-          }, 1000);
-        });
-      },
-      
-      login: function(email, password) {
-        return new Promise((resolve, reject) => {
-          setTimeout(() => {
-            const user = this.users.find(u => u.email === email && u.password === password);
-            if (user) {
-              resolve({ success: true, user });
-            } else {
-              reject({ success: false, message: 'Invalid email or password' });
-            }
-          }, 1000);
-        });
-      },
-      
-      getCurrentUser: function() {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            const token = localStorage.getItem('redoai_token');
-            if (!token) {
-              resolve(null);
+            // Validate password strength
+            if (password.length < 8) {
+              reject({ success: false, message: 'Password must be at least 8 characters' });
               return;
             }
             
-            const userId = parseInt(token);
-            const user = this.users.find(u => u.id === userId);
+            // Create new user
+            const newUser = {
+              id: Date.now().toString(),
+              name,
+              email,
+              password, // In a real app, this would be hashed
+              createdAt: new Date().toISOString(),
+              apiKey: this.generateApiKey()
+            };
+            
+            this.users.push(newUser);
+            
+            // In a real app, you would make a fetch request to your backend
+            // return fetch(`${this.baseUrl}/register`, {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ name, email, password })
+            // })
+            // .then(response => response.json())
+            
+            resolve({ 
+              success: true, 
+              user: {
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email,
+                apiKey: newUser.apiKey
+              } 
+            });
+          }, 1000);
+        });
+      },
+      
+      // Login user
+      login: async function(email, password) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const user = this.users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+              resolve({ 
+                success: true, 
+                user: {
+                  id: user.id,
+                  name: user.name,
+                  email: user.email,
+                  apiKey: user.apiKey
+                } 
+              });
+            } else {
+              reject({ success: false, message: 'Invalid email or password' });
+            }
+            
+            // In a real app:
+            // return fetch(`${this.baseUrl}/login`, {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ email, password })
+            // })
+            // .then(response => response.json())
+          }, 1000);
+        });
+      },
+      
+      // Get current user
+      getCurrentUser: async function(apiKey) {
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            const user = this.users.find(u => u.apiKey === apiKey);
             resolve(user || null);
           }, 500);
         });
+      },
+      
+      // Generate content with AI
+      generateContent: async function(prompt, apiKey) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Verify API key
+            const user = this.users.find(u => u.apiKey === apiKey);
+            if (!user) {
+              reject({ success: false, message: 'Invalid API key' });
+              return;
+            }
+            
+            // Simulate AI content generation
+            const generatedContent = this.simulateContentGeneration(prompt);
+            
+            // Save to history
+            this.contentHistory.push({
+              userId: user.id,
+              prompt,
+              content: generatedContent,
+              createdAt: new Date().toISOString()
+            });
+            
+            resolve({ 
+              success: true, 
+              content: generatedContent 
+            });
+          }, 2000);
+        });
+      },
+      
+      // Generate image with AI
+      generateImage: async function(prompt, apiKey) {
+        return new Promise((resolve, reject) => {
+          setTimeout(() => {
+            // Verify API key
+            const user = this.users.find(u => u.apiKey === apiKey);
+            if (!user) {
+              reject({ success: false, message: 'Invalid API key' });
+              return;
+            }
+            
+            // Simulate AI image generation
+            const imageUrl = this.simulateImageGeneration(prompt);
+            
+            // Save to history
+            this.imageHistory.push({
+              userId: user.id,
+              prompt,
+              imageUrl,
+              createdAt: new Date().toISOString()
+            });
+            
+            resolve({ 
+              success: true, 
+              imageUrl 
+            });
+          }, 3000);
+        });
+      },
+      
+      // Helper function to generate API key
+      generateApiKey: function() {
+        return 'redo_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      },
+      
+      // Simulate content generation
+      simulateContentGeneration: function(prompt) {
+        const paragraphs = [
+          `This is a generated article about "${prompt}". AI-powered content creation is revolutionizing how we produce written material.`,
+          `The benefits of using AI for "${prompt}" include increased efficiency, consistency in tone, and the ability to generate ideas quickly.`,
+          `When implementing "${prompt}" in your workflow, consider the ethical implications and always review AI-generated content for accuracy.`,
+          `Future developments in "${prompt}" technology promise even more sophisticated capabilities, making AI an indispensable tool for creators.`
+        ];
+        
+        return paragraphs.join('\n\n');
+      },
+      
+      // Simulate image generation
+      simulateImageGeneration: function(prompt) {
+        // In a real app, this would call an actual image generation API
+        // This is just a placeholder with a random Unsplash image
+        const images = [
+          'https://images.unsplash.com/photo-1677442135136-760c813a743d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80',
+          'https://images.unsplash.com/photo-1655720828012-585b4245fb6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80',
+          'https://images.unsplash.com/photo-1677442135139-34e8d7f43a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80',
+          'https://images.unsplash.com/photo-1581093450021-4a7360e9a6a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80'
+        ];
+        
+        return images[Math.floor(Math.random() * images.length)];
       }
     };
 
@@ -1105,55 +1623,158 @@
     const logoutBtn = document.getElementById('logoutBtn');
     const dashboard = document.getElementById('dashboard');
     const mainContent = document.querySelector('main');
+    const generateContentBtn = document.getElementById('generateContentBtn');
+    const generateImageBtn = document.getElementById('generateImageBtn');
+    const contentResult = document.getElementById('contentResult');
+    const imageResult = document.getElementById('imageResult');
+    const generatedContent = document.getElementById('generatedContent');
+    const generatedImage = document.getElementById('generatedImage');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const toolCards = document.querySelectorAll('.tool-card');
 
-    // Modal Toggle Functions
+    // State
+    let currentUser = null;
+
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is already logged in
+      checkAuthStatus();
+      
+      // Set up event listeners
+      setupEventListeners();
+      
+      // Set up tool filtering
+      setupToolFiltering();
+    });
+
+    // Check authentication status
+    async function checkAuthStatus() {
+      // In a real app, you would check for a token in localStorage or cookies
+      const token = localStorage.getItem('redoai_token');
+      if (token) {
+        try {
+          // Verify token with backend
+          // const response = await fetch(`${RedoAI.baseUrl}/verify-token`, {
+          //   headers: { 'Authorization': `Bearer ${token}` }
+          // });
+          // const data = await response.json();
+          
+          // For simulation, we'll just check our mock users
+          const user = await RedoAI.getCurrentUser(token);
+          if (user) {
+            currentUser = user;
+            showDashboard();
+          }
+        } catch (error) {
+          console.error('Authentication check failed:', error);
+          localStorage.removeItem('redoai_token');
+        }
+      }
+    }
+
+    // Show dashboard
+    function showDashboard() {
+      document.querySelector('header').style.display = 'none';
+      document.querySelector('main').style.display = 'none';
+      dashboard.style.display = 'block';
+      
+      // Update user info
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userEmail').textContent = currentUser.email;
+      document.getElementById('userAvatar').textContent = 
+        currentUser.name.split(' ').map(n => n[0]).join('');
+    }
+
+    // Show main content
+    function showMainContent() {
+      document.querySelector('header').style.display = '';
+      document.querySelector('main').style.display = '';
+      dashboard.style.display = 'none';
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Modal toggle
+      loginBtn.addEventListener('click', () => openModal(loginModal));
+      signupBtn.addEventListener('click', () => openModal(signupModal));
+
+      closeModalBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const modal = btn.closest('.modal-overlay');
+          closeModal(modal);
+        });
+      });
+
+      switchToLogin.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal(signupModal);
+        openModal(loginModal);
+      });
+
+      switchToSignup.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeModal(loginModal);
+        openModal(signupModal);
+      });
+
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal-overlay')) {
+          closeModal(e.target);
+        }
+      });
+
+      // Form submissions
+      loginForm.addEventListener('submit', handleLogin);
+      signupForm.addEventListener('submit', handleSignup);
+      logoutBtn.addEventListener('click', handleLogout);
+      
+      // Tool actions
+      generateContentBtn.addEventListener('click', generateContent);
+      generateImageBtn.addEventListener('click', generateImage);
+    }
+
+    // Set up tool filtering
+    function setupToolFiltering() {
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Update active tab
+          tabBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Filter tools
+          const category = this.dataset.category;
+          toolCards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    }
+
+    // Open modal
     function openModal(modal) {
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
     }
 
+    // Close modal
     function closeModal(modal) {
       modal.classList.remove('active');
       document.body.style.overflow = '';
     }
 
+    // Close all modals
     function closeAllModals() {
       closeModal(loginModal);
       closeModal(signupModal);
     }
 
-    // Event Listeners
-    loginBtn.addEventListener('click', () => openModal(loginModal));
-    signupBtn.addEventListener('click', () => openModal(signupModal));
-
-    closeModalBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const modal = btn.closest('.modal-overlay');
-        closeModal(modal);
-      });
-    });
-
-    switchToLogin.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeModal(signupModal);
-      openModal(loginModal);
-    });
-
-    switchToSignup.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeModal(loginModal);
-      openModal(signupModal);
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-      if (e.target.classList.contains('modal-overlay')) {
-        closeModal(e.target);
-      }
-    });
-
-    // Form Submissions
-    loginForm.addEventListener('submit', async (e) => {
+    // Handle login
+    async function handleLogin(e) {
       e.preventDefault();
       
       const email = document.getElementById('loginEmail').value;
@@ -1164,28 +1785,118 @@
         
         if (response.success) {
           // Store user token (simulated)
-          localStorage.setItem('redoai_token', response.user.id);
+          localStorage.setItem('redoai_token', response.user.apiKey);
+          currentUser = response.user;
           
           // Update UI
-          document.getElementById('userName').textContent = response.user.name;
-          document.getElementById('userEmail').textContent = response.user.email;
-          document.getElementById('userAvatar').textContent = 
-            response.user.name.split(' ').map(n => n[0]).join('');
-          
-          // Show dashboard
-          dashboard.style.display = 'block';
-          document.querySelector('main').style.display = 'none';
-          document.querySelector('header').style.display = 'none';
-          
+          showDashboard();
           closeAllModals();
+          
+          // Clear form
+          loginForm.reset();
         }
       } catch (error) {
         alert(error.message || 'Login failed. Please try again.');
       }
-    });
+    }
 
-    signupForm.addEventListener('submit', async (e) => {
+    // Handle signup
+    async function handleSignup(e) {
       e.preventDefault();
       
       const name = document.getElementById('signupName').value;
-     
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('signupConfirm').value;
+      
+      // Basic validation
+      if (password !== confirm) {
+        alert('Passwords do not match');
+        return;
+      }
+      
+      try {
+        const response = await RedoAI.register(name, email, password);
+        
+        if (response.success) {
+          // Store user token (simulated)
+          localStorage.setItem('redoai_token', response.user.apiKey);
+          currentUser = response.user;
+          
+          // Update UI
+          showDashboard();
+          closeAllModals();
+          
+          // Clear form
+          signupForm.reset();
+          
+          alert('Account created successfully!');
+        }
+      } catch (error) {
+        alert(error.message || 'Registration failed. Please try again.');
+      }
+    }
+
+    // Handle logout
+    function handleLogout() {
+      localStorage.removeItem('redoai_token');
+      currentUser = null;
+      showMainContent();
+    }
+
+    // Generate content
+    async function generateContent() {
+      const prompt = document.getElementById('contentPrompt').value;
+      
+      if (!prompt) {
+        alert('Please enter a prompt');
+        return;
+      }
+      
+      generateContentBtn.disabled = true;
+      generateContentBtn.innerHTML = '<i class="fas fa-spinner fa-spin btn-icon"></i> Generating...';
+      
+      try {
+        const response = await RedoAI.generateContent(prompt, currentUser.apiKey);
+        
+        if (response.success) {
+          generatedContent.textContent = response.content;
+          contentResult.style.display = 'block';
+        }
+      } catch (error) {
+        alert(error.message || 'Failed to generate content');
+      } finally {
+        generateContentBtn.disabled = false;
+        generateContentBtn.innerHTML = '<i class="fas fa-magic btn-icon"></i> Generate Content';
+      }
+    }
+
+    // Generate image
+    async function generateImage() {
+      const prompt = document.getElementById('imagePrompt').value;
+      
+      if (!prompt) {
+        alert('Please enter a prompt');
+        return;
+      }
+      
+      generateImageBtn.disabled = true;
+      generateImageBtn.innerHTML = '<i class="fas fa-spinner fa-spin btn-icon"></i> Generating...';
+      
+      try {
+        const response = await RedoAI.generateImage(prompt, currentUser.apiKey);
+        
+        if (response.success) {
+          generatedImage.innerHTML = `<img src="${response.imageUrl}" alt="Generated image" style="max-width:100%; border-radius:8px;">`;
+          imageResult.style.display = 'block';
+        }
+      } catch (error) {
+        alert(error.message || 'Failed to generate image');
+      } finally {
+        generateImageBtn.disabled = false;
+        generateImageBtn.innerHTML = '<i class="fas fa-magic btn-icon"></i> Generate Image';
+      }
+    }
+  </script>
+</body>
+</html>

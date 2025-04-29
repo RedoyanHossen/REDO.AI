@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenMassage | Registration</title>
+    <title>ZenMassage | Complete Messaging</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -13,6 +13,7 @@
             --dark: #2D3436;
             --success: #28A745;
             --error: #FF5252;
+            --warning: #FFC107;
         }
         
         * {
@@ -25,15 +26,100 @@
         body {
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
         }
         
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            display: flex;
+            min-height: 90vh;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .sidebar-header {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        /* Auth Pages */
         .auth-container {
             width: 100%;
             max-width: 500px;
+            margin: 50px auto;
             background: white;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -59,7 +145,6 @@
         
         .form-group {
             margin-bottom: 20px;
-            position: relative;
         }
         
         .form-control {
@@ -71,7 +156,6 @@
         }
         
         .btn {
-            width: 100%;
             padding: 12px;
             border: none;
             border-radius: 8px;
@@ -79,13 +163,71 @@
             color: white;
             font-size: 1rem;
             cursor: pointer;
+            transition: all 0.3s;
         }
         
-        .error-message {
-            color: var(--error);
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-block {
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .toggle-form {
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        /* Massage Cards */
+        .massage-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .massage-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .massage-sender {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .massage-time {
+            color: #777;
             font-size: 0.8rem;
-            margin-top: 5px;
-            display: none;
+        }
+        
+        /* Settings */
+        .settings-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Notification Badge */
+        .badge {
+            background: var(--error);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            margin-left: 5px;
         }
         
         .hidden {
@@ -94,75 +236,521 @@
     </style>
 </head>
 <body>
-    <!-- Auth Container -->
-    <div class="auth-container">
+    <!-- Auth Container (Shown First) -->
+    <div id="authContainer" class="auth-container">
         <div class="header">
             <h1><i class="fas fa-spa"></i> ZenMassage</h1>
         </div>
 
+        <!-- Login Form -->
+        <div class="form-container" id="loginSection">
+            <h2 class="form-title">Welcome Back</h2>
+            
+            <div class="form-group">
+                <input type="text" id="username" class="form-control" placeholder="Username">
+            </div>
+            
+            <div class="form-group">
+                <input type="password" id="password" class="form-control" placeholder="Password">
+            </div>
+            
+            <button class="btn btn-block" onclick="login()">Login</button>
+            
+            <p style="text-align: center; margin-top: 15px;">
+                Don't have an account? 
+                <span class="toggle-form" onclick="showRegister()">Register</span>
+            </p>
+        </div>
+
         <!-- Register Form -->
-        <div class="form-container">
+        <div class="form-container hidden" id="registerSection">
             <h2 class="form-title">Create Account</h2>
             
             <div class="form-group">
-                <input type="text" id="newUsername" class="form-control" placeholder="Username" oninput="checkUsername()">
-                <div id="usernameError" class="error-message">Username already exists</div>
+                <input type="text" id="newUsername" class="form-control" placeholder="Username">
             </div>
             
             <div class="form-group">
                 <input type="password" id="newPassword" class="form-control" placeholder="Password">
             </div>
             
-            <button class="btn" onclick="register()" id="registerBtn">Register</button>
+            <div class="form-group">
+                <input type="text" id="fullName" class="form-control" placeholder="Full Name">
+            </div>
+            
+            <button class="btn btn-block" onclick="register()">Register</button>
             
             <p style="text-align: center; margin-top: 15px;">
                 Already have an account? 
-                <a href="#" style="color: var(--primary); font-weight: 600; text-decoration: none;">Login</a>
+                <span class="toggle-form" onclick="showLogin()">Login</span>
             </p>
         </div>
     </div>
 
-    <script>
-        // Check username availability
-        function checkUsername() {
-            const username = document.getElementById('newUsername').value.trim();
-            const users = JSON.parse(localStorage.getItem('users') || []);
-            const errorElement = document.getElementById('usernameError');
-            const registerBtn = document.getElementById('registerBtn');
+    <!-- Main App Container (Hidden Initially) -->
+    <div id="appContainer" class="container hidden">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>ZenMassage</h2>
+            </div>
             
-            if (users.some(u => u.username === username)) {
-                errorElement.style.display = 'block';
-                registerBtn.disabled = true;
-                registerBtn.style.opacity = '0.6';
-            } else {
-                errorElement.style.display = 'none';
-                registerBtn.disabled = false;
-                registerBtn.style.opacity = '1';
-            }
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="#" class="active" onclick="showSection('massageSection')">
+                        <i class="fas fa-paper-plane"></i> Send Massage
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('inboxSection')">
+                        <i class="fas fa-inbox"></i> Inbox
+                        <span id="inboxBadge" class="badge hidden">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('sentSection')">
+                        <i class="fas fa-share-square"></i> Sent
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="showSection('settingsSection')">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li>
+                    <a href="#" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+            
+            <div style="margin-top: 30px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                <p>Logged in as: <strong id="sidebarUsername"></strong></p>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Massage Section -->
+            <div id="massageSection">
+                <div class="content-header">
+                    <h2>Send a Massage</h2>
+                    <div class="user-profile">
+                        <div class="user-avatar" id="avatarInitial"></div>
+                        <span id="currentUser"></span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <input type="text" id="friendUsername" class="form-control" placeholder="Friend's Username">
+                </div>
+                
+                <div class="form-group">
+                    <textarea id="massageText" class="form-control" rows="4" placeholder="Your massage..."></textarea>
+                </div>
+                
+                <button class="btn btn-block" onclick="sendMassage()">Send Massage</button>
+                
+                <div id="responseMessage" style="margin-top: 15px; text-align: center;"></div>
+            </div>
+            
+            <!-- Inbox Section -->
+            <div id="inboxSection" class="hidden">
+                <div class="content-header">
+                    <h2>Your Inbox</h2>
+                    <div class="user-profile">
+                        <div class="user-avatar" id="inboxAvatarInitial"></div>
+                        <span id="inboxUsername"></span>
+                    </div>
+                </div>
+                
+                <div id="inboxList"></div>
+            </div>
+            
+            <!-- Sent Section -->
+            <div id="sentSection" class="hidden">
+                <div class="content-header">
+                    <h2>Sent Massages</h2>
+                    <div class="user-profile">
+                        <div class="user-avatar" id="sentAvatarInitial"></div>
+                        <span id="sentUsername"></span>
+                    </div>
+                </div>
+                
+                <div id="sentList"></div>
+            </div>
+            
+            <!-- Settings Section -->
+            <div id="settingsSection" class="hidden">
+                <div class="content-header">
+                    <h2>Account Settings</h2>
+                    <div class="user-profile">
+                        <div class="user-avatar" id="settingsAvatarInitial"></div>
+                        <span id="settingsUsername"></span>
+                    </div>
+                </div>
+                
+                <div class="settings-form">
+                    <h3 style="margin-bottom: 20px;">Change Password</h3>
+                    
+                    <div class="form-group">
+                        <label>Current Password</label>
+                        <input type="password" id="currentPassword" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>New Password</label>
+                        <input type="password" id="newPasswordSetting" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Confirm New Password</label>
+                        <input type="password" id="confirmPassword" class="form-control">
+                    </div>
+                    
+                    <button class="btn btn-block" onclick="changePassword()">Update Password</button>
+                    
+                    <div id="passwordMessage" style="margin-top: 15px; text-align: center;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize localStorage
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([]));
+        }
+        if (!localStorage.getItem('massages')) {
+            localStorage.setItem('massages', JSON.stringify([]));
         }
 
-        // Register user
+        // DOM Elements
+        const authContainer = document.getElementById('authContainer');
+        const appContainer = document.getElementById('appContainer');
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const currentUserSpan = document.getElementById('currentUser');
+        const sidebarUsername = document.getElementById('sidebarUsername');
+        
+        // Current logged in user
+        let currentUser = null;
+
+        // Toggle Forms
+        function showRegister() {
+            loginSection.classList.add('hidden');
+            registerSection.classList.remove('hidden');
+        }
+        
+        function showLogin() {
+            registerSection.classList.add('hidden');
+            loginSection.classList.remove('hidden');
+        }
+
+        // Register User
         function register() {
             const username = document.getElementById('newUsername').value.trim();
             const password = document.getElementById('newPassword').value.trim();
-            const users = JSON.parse(localStorage.getItem('users') || []);
-            
-            // Final check (in case user bypasses the oninput check)
+            const fullName = document.getElementById('fullName').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
+
+            if (!username || !password || !fullName) {
+                alert('Please fill all fields');
+                return;
+            }
+
             if (users.some(u => u.username === username)) {
-                alert('Username is already taken. Please choose another one.');
+                alert('Username already exists');
+                return;
+            }
+
+            users.push({ 
+                username, 
+                password, 
+                fullName,
+                joined: new Date().toISOString()
+            });
+            localStorage.setItem('users', JSON.stringify(users));
+            alert('Registration successful! Please login.');
+            showLogin();
+        }
+
+        // Login User
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (!user) {
+                alert('Invalid username or password');
+                return;
+            }
+
+            // Set current user
+            currentUser = user;
+            
+            // Switch to app
+            authContainer.classList.add('hidden');
+            appContainer.classList.remove('hidden');
+            
+            // Update UI
+            updateUserInfo();
+            loadInbox();
+            loadSent();
+            
+            // Start checking for new messages
+            setInterval(checkNewMessages, 5000);
+        }
+
+        // Update user info in UI
+        function updateUserInfo() {
+            currentUserSpan.textContent = currentUser.fullName || currentUser.username;
+            sidebarUsername.textContent = currentUser.username;
+            
+            // Set avatar initials
+            const initials = (currentUser.fullName || currentUser.username)
+                .split(' ')
+                .map(n => n[0])
+                .join('')
+                .toUpperCase()
+                .substring(0, 2);
+            
+            document.querySelectorAll('.user-avatar').forEach(el => {
+                el.textContent = initials;
+            });
+        }
+
+        // Show section
+        function showSection(sectionId) {
+            document.querySelectorAll('.main-content > div').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update active menu item
+            document.querySelectorAll('.sidebar-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Send Massage
+        function sendMassage() {
+            const sender = currentUser.username;
+            const receiver = document.getElementById('friendUsername').value.trim();
+            const text = document.getElementById('massageText').value.trim();
+            const users = JSON.parse(localStorage.getItem('users'));
+            const massages = JSON.parse(localStorage.getItem('massages'));
+
+            if (!receiver || !text) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            if (!users.some(u => u.username === receiver)) {
+                alert('User not found');
+                return;
+            }
+
+            const newMassage = {
+                sender,
+                receiver,
+                text,
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+            
+            massages.push(newMassage);
+            localStorage.setItem('massages', JSON.stringify(massages));
+            
+            document.getElementById('responseMessage').innerHTML = 
+                `<span style="color: var(--success);">Massage sent to ${receiver}!</span>`;
+            document.getElementById('massageText').value = '';
+            
+            // Update sent list
+            loadSent();
+        }
+
+        // Load Inbox
+        function loadInbox() {
+            const massages = JSON.parse(localStorage.getItem('massages'));
+            const inbox = massages.filter(m => m.receiver === currentUser.username);
+            
+            const inboxList = document.getElementById('inboxList');
+            inboxList.innerHTML = '';
+            
+            if (inbox.length === 0) {
+                inboxList.innerHTML = '<p>No messages in your inbox yet.</p>';
                 return;
             }
             
-            // Proceed with registration
-            users.push({ username, password });
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Registration successful!');
-            // Redirect to login or other page
+            // Sort by newest first
+            inbox.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            inbox.forEach(msg => {
+                const senderUser = JSON.parse(localStorage.getItem('users'))
+                    .find(u => u.username === msg.sender);
+                
+                const card = document.createElement('div');
+                card.className = 'massage-card';
+                card.innerHTML = `
+                    <div class="massage-header">
+                        <div class="massage-sender">
+                            From: ${senderUser?.fullName || msg.sender}
+                        </div>
+                        <div class="massage-time">
+                            ${formatDate(msg.timestamp)}
+                        </div>
+                    </div>
+                    <p>${msg.text}</p>
+                `;
+                inboxList.appendChild(card);
+                
+                // Mark as read
+                if (!msg.read) {
+                    msg.read = true;
+                    localStorage.setItem('massages', JSON.stringify(massages));
+                }
+            });
+            
+            // Update badge
+            updateInboxBadge();
         }
 
-        // Initialize localStorage if empty
-        if (!localStorage.getItem('users')) {
-            localStorage.setItem('users', JSON.stringify([]));
+        // Load Sent
+        function loadSent() {
+            const massages = JSON.parse(localStorage.getItem('massages'));
+            const sent = massages.filter(m => m.sender === currentUser.username);
+            
+            const sentList = document.getElementById('sentList');
+            sentList.innerHTML = '';
+            
+            if (sent.length === 0) {
+                sentList.innerHTML = '<p>You haven\'t sent any messages yet.</p>';
+                return;
+            }
+            
+            // Sort by newest first
+            sent.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            sent.forEach(msg => {
+                const receiverUser = JSON.parse(localStorage.getItem('users'))
+                    .find(u => u.username === msg.receiver);
+                
+                const card = document.createElement('div');
+                card.className = 'massage-card';
+                card.innerHTML = `
+                    <div class="massage-header">
+                        <div class="massage-sender">
+                            To: ${receiverUser?.fullName || msg.receiver}
+                        </div>
+                        <div class="massage-time">
+                            ${formatDate(msg.timestamp)}
+                        </div>
+                    </div>
+                    <p>${msg.text}</p>
+                `;
+                sentList.appendChild(card);
+            });
+        }
+
+        // Change Password
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPasswordSetting').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                document.getElementById('passwordMessage').innerHTML = 
+                    '<span style="color: var(--error);">Please fill all fields</span>';
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                document.getElementById('passwordMessage').innerHTML = 
+                    '<span style="color: var(--error);">New passwords don\'t match</span>';
+                return;
+            }
+            
+            if (currentPassword !== currentUser.password) {
+                document.getElementById('passwordMessage').innerHTML = 
+                    '<span style="color: var(--error);">Current password is incorrect</span>';
+                return;
+            }
+            
+            // Update password
+            const users = JSON.parse(localStorage.getItem('users'));
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            users[userIndex].password = newPassword;
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Update current user
+            currentUser.password = newPassword;
+            
+            document.getElementById('passwordMessage').innerHTML = 
+                '<span style="color: var(--success);">Password updated successfully!</span>';
+            
+            // Clear fields
+            document.getElementById('currentPassword').value = '';
+            document.getElementById('newPasswordSetting').value = '';
+            document.getElementById('confirmPassword').value = '';
+        }
+
+        // Check for new messages
+        function checkNewMessages() {
+            const massages = JSON.parse(localStorage.getItem('massages'));
+            const unreadCount = massages.filter(m => 
+                m.receiver === currentUser.username && !m.read
+            ).length;
+            
+            if (unreadCount > 0) {
+                updateInboxBadge();
+                
+                // If inbox is currently visible, refresh it
+                if (!document.getElementById('inboxSection').classList.contains('hidden')) {
+                    loadInbox();
+                }
+            }
+        }
+
+        // Update inbox badge
+        function updateInboxBadge() {
+            const massages = JSON.parse(localStorage.getItem('massages'));
+            const unreadCount = massages.filter(m => 
+                m.receiver === currentUser.username && !m.read
+            ).length;
+            
+            const badge = document.getElementById('inboxBadge');
+            if (unreadCount > 0) {
+                badge.classList.remove('hidden');
+                badge.textContent = unreadCount;
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        // Format date
+        function formatDate(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+            });
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            appContainer.classList.add('hidden');
+            authContainer.classList.remove('hidden');
+            showLogin();
+            
+            // Clear fields
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
         }
     </script>
 </body>

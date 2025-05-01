@@ -3,755 +3,989 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZenMassage | Complete Messaging</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>DeepSeek Chat</title>
     <style>
         :root {
-            --primary: #6C63FF;
-            --secondary: #FF6584;
-            --light: #F8F9FA;
-            --dark: #2D3436;
-            --success: #28A745;
-            --error: #FF5252;
-            --warning: #FFC107;
+            --primary-color: #0084ff;
+            --secondary-color: #f0f0f0;
+            --text-color: #333;
+            --light-text: #777;
+            --white: #fff;
+            --bubble-sent: #0084ff;
+            --bubble-received: #e5e5ea;
+            --header-height: 60px;
+            --footer-height: 60px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            background-color: #f5f5f5;
+            color: var(--text-color);
+            height: 100vh;
             overflow: hidden;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            height: 100vh;
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Login Screen */
+        .login-screen {
             display: flex;
-            min-height: 90vh;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
             padding: 20px;
+            background-color: var(--white);
         }
-        
-        .sidebar-header {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 20px;
+
+        .login-screen h1 {
+            margin-bottom: 30px;
+            color: var(--primary-color);
         }
-        
-        .sidebar-menu {
-            list-style: none;
+
+        .login-form {
+            width: 100%;
+            max-width: 300px;
         }
-        
-        .sidebar-menu li {
-            margin-bottom: 10px;
+
+        .input-group {
+            margin-bottom: 15px;
         }
-        
-        .sidebar-menu a {
-            color: white;
-            text-decoration: none;
+
+        .input-group label {
             display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
             padding: 10px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            transition: all 0.3s;
+            font-size: 16px;
         }
-        
-        .sidebar-menu a:hover, .sidebar-menu a.active {
-            background: rgba(255,255,255,0.2);
+
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
         }
-        
-        .sidebar-menu i {
-            margin-right: 10px;
-            width: 20px;
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .error-message {
+            color: #ff3b30;
+            margin-top: 10px;
             text-align: center;
+            font-size: 14px;
         }
-        
-        /* Main Content */
-        .main-content {
+
+        /* Chat Screen */
+        .chat-screen {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .header {
+            height: var(--header-height);
+            background-color: var(--primary-color);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-title {
+            font-weight: 500;
+            font-size: 18px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header-icon {
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .chat-container {
             flex: 1;
-            padding: 20px;
+            overflow-y: auto;
+            padding: 15px;
+            background-color: #f5f5f5;
         }
-        
-        .content-header {
+
+        .message {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .message.received {
+            justify-content: flex-start;
+        }
+
+        .message.sent {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-right: 10px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .message.sent .message-avatar {
+            margin-right: 0;
+            margin-left: 10px;
+            order: 1;
+        }
+
+        .message-content {
+            max-width: 70%;
+        }
+
+        .message-bubble {
+            padding: 10px 15px;
+            border-radius: 18px;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message.received .message-bubble {
+            background-color: var(--bubble-received);
+            border-bottom-left-radius: 5px;
+        }
+
+        .message.sent .message-bubble {
+            background-color: var(--bubble-sent);
+            color: var(--white);
+            border-bottom-right-radius: 5px;
+        }
+
+        .message-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            margin-top: 5px;
+            font-size: 12px;
+            color: var(--light-text);
         }
-        
-        .user-profile {
+
+        .message.sent .message-info {
+            justify-content: flex-end;
+        }
+
+        .message-time {
+            margin-right: 5px;
+        }
+
+        .message-status {
+            font-style: italic;
+        }
+
+        .input-area {
+            height: var(--footer-height);
             display: flex;
-            align-items: center;
+            padding: 10px;
+            background-color: var(--white);
+            border-top: 1px solid #eee;
         }
-        
-        .user-avatar {
+
+        .message-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .send-btn {
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: var(--primary);
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 10px;
-            font-weight: bold;
+            cursor: pointer;
         }
-        
-        /* Auth Pages */
-        .auth-container {
-            width: 100%;
-            max-width: 500px;
-            margin: 50px auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+
+        /* Profile Screen */
+        .profile-screen {
+            display: none;
+            height: 100%;
+            flex-direction: column;
+            background-color: var(--white);
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
-            padding: 25px;
-            text-align: center;
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: var(--white);
         }
-        
-        .form-container {
-            padding: 30px;
+
+        .back-btn {
+            margin-right: 15px;
+            font-size: 20px;
+            cursor: pointer;
         }
-        
-        .form-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--primary);
+
+        .profile-title {
+            font-size: 18px;
+            font-weight: 500;
         }
-        
-        .form-group {
+
+        .profile-content {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .profile-avatar-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ccc;
+            margin-bottom: 15px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .change-avatar-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .profile-field {
             margin-bottom: 20px;
         }
-        
-        .form-control {
+
+        .profile-field label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: var(--light-text);
+        }
+
+        .profile-field input {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px;
             border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 5px;
+            font-size: 16px;
         }
-        
-        .btn {
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            background: var(--primary);
-            color: white;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn:hover {
-            opacity: 0.9;
-        }
-        
-        .btn-block {
-            width: 100%;
-        }
-        
-        .btn-secondary {
-            background: var(--secondary);
-        }
-        
-        .toggle-form {
-            color: var(--primary);
-            cursor: pointer;
-            font-weight: 600;
-        }
-        
-        /* Massage Cards */
-        .massage-card {
-            background: white;
-            border-radius: 10px;
+
+        .secret-code-container {
+            background-color: var(--secondary-color);
             padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            border-left: 4px solid var(--primary);
+            border-radius: 10px;
+            margin-top: 30px;
         }
-        
-        .massage-header {
-            display: flex;
-            justify-content: space-between;
+
+        .secret-code-title {
+            font-weight: 500;
             margin-bottom: 10px;
         }
-        
-        .massage-sender {
-            font-weight: 600;
-            color: var(--primary);
+
+        .secret-code {
+            font-family: monospace;
+            font-size: 18px;
+            margin-bottom: 15px;
+            word-break: break-all;
         }
-        
-        .massage-time {
-            color: #777;
-            font-size: 0.8rem;
+
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
         }
-        
-        /* Settings */
-        .settings-form {
-            max-width: 500px;
-            margin: 0 auto;
-        }
-        
-        /* Notification Badge */
-        .badge {
-            background: var(--error);
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            margin-left: 5px;
-        }
-        
-        .hidden {
+
+        /* Add Contact Screen */
+        .add-contact-screen {
             display: none;
+            height: 100%;
+            flex-direction: column;
+            background-color: var(--white);
+        }
+
+        .add-contact-content {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .add-contact-instructions {
+            margin-bottom: 20px;
+            color: var(--light-text);
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 4px;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 400px) {
+            .message-content {
+                max-width: 80%;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Auth Container (Shown First) -->
-    <div id="authContainer" class="auth-container">
-        <div class="header">
-            <h1><i class="fas fa-spa"></i> ZenMassage$</h1>
+    <div class="app-container">
+        <!-- Login Screen -->
+        <div class="login-screen" id="loginScreen">
+            <h1>DeepSeek Chat</h1>
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn">Login</button>
+                <div class="error-message" id="loginError"></div>
+            </form>
+            <button class="btn btn-secondary" id="registerBtn" style="margin-top: 20px;">Register</button>
         </div>
 
-        <!-- Login Form -->
-        <div class="form-container" id="loginSection">
-            <h2 class="form-title">Welcome Back</h2>
-            
-            <div class="form-group">
-                <input type="text" id="username" class="form-control" placeholder="Username">
+        <!-- Chat Screen -->
+        <div class="chat-screen" id="chatScreen">
+            <div class="header">
+                <div class="header-title" id="chatTitle">Chat</div>
+                <div class="header-actions">
+                    <div class="header-icon" id="profileBtn">👤</div>
+                    <div class="header-icon" id="addContactBtn">➕</div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <input type="password" id="password" class="form-control" placeholder="Password">
+            <div class="chat-container" id="chatContainer">
+                <!-- Messages will be inserted here -->
             </div>
-            
-            <button class="btn btn-block" onclick="login()">Login</button>
-            
-            <p style="text-align: center; margin-top: 15px;">
-                Don't have an account? 
-                <span class="toggle-form" onclick="showRegister()">Register</span>
-            </p>
+            <div class="input-area">
+                <input type="text" class="message-input" id="messageInput" placeholder="Type a message...">
+                <button class="send-btn" id="sendBtn">➤</button>
+            </div>
         </div>
 
-        <!-- Register Form -->
-        <div class="form-container hidden" id="registerSection">
-            <h2 class="form-title">Create Account</h2>
-            
-            <div class="form-group">
-                <input type="text" id="newUsername" class="form-control" placeholder="Username">
+        <!-- Profile Screen -->
+        <div class="profile-screen" id="profileScreen">
+            <div class="profile-header">
+                <div class="back-btn" id="profileBackBtn">←</div>
+                <div class="profile-title">My Profile</div>
             </div>
-            
-            <div class="form-group">
-                <input type="password" id="newPassword" class="form-control" placeholder="Password">
+            <div class="profile-content">
+                <div class="profile-avatar-container">
+                    <div class="profile-avatar" id="profileAvatar"></div>
+                    <button class="change-avatar-btn" id="changeAvatarBtn">Change Photo</button>
+                </div>
+                <div class="profile-field">
+                    <label for="profileName">Name</label>
+                    <input type="text" id="profileName" placeholder="Your name">
+                </div>
+                <div class="secret-code-container">
+                    <div class="secret-code-title">Your Secret Code</div>
+                    <div class="secret-code" id="secretCodeDisplay"></div>
+                    <button class="copy-btn" id="copyCodeBtn">Copy Code</button>
+                </div>
+                <button class="btn" id="saveProfileBtn" style="margin-top: 30px;">Save Changes</button>
             </div>
-            
-            <div class="form-group">
-                <input type="text" id="fullName" class="form-control" placeholder="Full Name">
+        </div>
+
+        <!-- Add Contact Screen -->
+        <div class="add-contact-screen" id="addContactScreen">
+            <div class="profile-header">
+                <div class="back-btn" id="addContactBackBtn">←</div>
+                <div class="profile-title">Add Contact</div>
             </div>
-            
-            <button class="btn btn-block" onclick="register()">Register</button>
-            
-            <p style="text-align: center; margin-top: 15px;">
-                Already have an account? 
-                <span class="toggle-form" onclick="showLogin()">Login</span>
-            </p>
+            <div class="add-contact-content">
+                <p class="add-contact-instructions">
+                    To start chatting with someone, ask them for their secret code and enter it below.
+                    They'll need your secret code too to message you back.
+                </p>
+                <div class="profile-field">
+                    <label for="contactCode">Enter Contact's Secret Code</label>
+                    <input type="text" id="contactCode" placeholder="Paste code here">
+                </div>
+                <button class="btn" id="addContactSubmitBtn">Add Contact</button>
+                <div class="error-message" id="addContactError"></div>
+            </div>
         </div>
     </div>
 
-    <!-- Main App Container (Hidden Initially) -->
-    <div id="appContainer" class="container hidden">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-header">
-                <h2>ZenMassage</h2>
-            </div>
-            
-            <ul class="sidebar-menu">
-                <li>
-                    <a href="#" class="active" onclick="showSection('massageSection')">
-                        <i class="fas fa-paper-plane"></i> Send Massage
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('inboxSection')">
-                        <i class="fas fa-inbox"></i> Inbox
-                        <span id="inboxBadge" class="badge hidden">0</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('sentSection')">
-                        <i class="fas fa-share-square"></i> Sent
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showSection('settingsSection')">
-                        <i class="fas fa-cog"></i> Settings
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="logout()">
-                        <i class="fas fa-sign-out-alt"></i> Logout
-                    </a>
-                </li>
-            </ul>
-            
-            <div style="margin-top: 30px; color: rgba(255,255,255,0.7); font-size: 0.9rem;">
-                <p>Logged in as: <strong id="sidebarUsername"></strong></p>
-            </div>
-        </div>
-        
-        <!-- Main Content -->
-        <div class="main-content">
-            <!-- Massage Section -->
-            <div id="massageSection">
-                <div class="content-header">
-                    <h2>Send a Massage</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="avatarInitial"></div>
-                        <span id="currentUser"></span>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <input type="text" id="friendUsername" class="form-control" placeholder="Friend's Username">
-                </div>
-                
-                <div class="form-group">
-                    <textarea id="massageText" class="form-control" rows="4" placeholder="Your massage..."></textarea>
-                </div>
-                
-                <button class="btn btn-block" onclick="sendMassage()">Send Massage</button>
-                
-                <div id="responseMessage" style="margin-top: 15px; text-align: center;"></div>
-            </div>
-            
-            <!-- Inbox Section -->
-            <div id="inboxSection" class="hidden">
-                <div class="content-header">
-                    <h2>Your Inbox</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="inboxAvatarInitial"></div>
-                        <span id="inboxUsername"></span>
-                    </div>
-                </div>
-                
-                <div id="inboxList"></div>
-            </div>
-            
-            <!-- Sent Section -->
-            <div id="sentSection" class="hidden">
-                <div class="content-header">
-                    <h2>Sent Massages</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="sentAvatarInitial"></div>
-                        <span id="sentUsername"></span>
-                    </div>
-                </div>
-                
-                <div id="sentList"></div>
-            </div>
-            
-            <!-- Settings Section -->
-            <div id="settingsSection" class="hidden">
-                <div class="content-header">
-                    <h2>Account Settings</h2>
-                    <div class="user-profile">
-                        <div class="user-avatar" id="settingsAvatarInitial"></div>
-                        <span id="settingsUsername"></span>
-                    </div>
-                </div>
-                
-                <div class="settings-form">
-                    <h3 style="margin-bottom: 20px;">Change Password</h3>
-                    
-                    <div class="form-group">
-                        <label>Current Password</label>
-                        <input type="password" id="currentPassword" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" id="newPasswordSetting" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Confirm New Password</label>
-                        <input type="password" id="confirmPassword" class="form-control">
-                    </div>
-                    
-                    <button class="btn btn-block" onclick="changePassword()">Update Password</button>
-                    
-                    <div id="passwordMessage" style="margin-top: 15px; text-align: center;"></div>
-                </div>
-            </div>
-        </div>
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner"></div>
     </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
 
     <script>
-        // Initialize localStorage
-        if (!localStorage.getItem('users')) {
-            localStorage.setItem('users', JSON.stringify([]));
-        }
-        if (!localStorage.getItem('massages')) {
-            localStorage.setItem('massages', JSON.stringify([]));
-        }
+        // Simulated backend data
+        const simulatedBackend = {
+            users: [
+                { 
+                    id: 1, 
+                    username: 'user1', 
+                    password: 'pass1', 
+                    name: 'John Doe', 
+                    avatar: 'https://i.pravatar.cc/150?img=1', 
+                    secretCode: 'ABCD-1234',
+                    contacts: [2]
+                },
+                { 
+                    id: 2, 
+                    username: 'user2', 
+                    password: 'pass2', 
+                    name: 'Jane Smith', 
+                    avatar: 'https://i.pravatar.cc/150?img=2', 
+                    secretCode: 'EFGH-5678',
+                    contacts: [1]
+                }
+            ],
+            messages: [
+                { id: 1, senderId: 1, receiverId: 2, text: 'Hey Jane! How are you?', timestamp: Date.now() - 3600000, seen: true, seenTimestamp: Date.now() - 3500000 },
+                { id: 2, senderId: 2, receiverId: 1, text: 'Hi John! I\'m good, thanks for asking. How about you?', timestamp: Date.now() - 3000000, seen: true, seenTimestamp: Date.now() - 2900000 },
+                { id: 3, senderId: 1, receiverId: 2, text: 'Doing well! Just working on this new chat app.', timestamp: Date.now() - 1800000, seen: true, seenTimestamp: Date.now() - 1700000 },
+                { id: 4, senderId: 2, receiverId: 1, text: 'That sounds interesting! What technologies are you using?', timestamp: Date.now() - 900000, seen: true, seenTimestamp: Date.now() - 800000 },
+                { id: 5, senderId: 1, receiverId: 2, text: 'Pure HTML, CSS, and JavaScript in a single file!', timestamp: Date.now() - 600000, seen: false }
+            ]
+        };
 
-        // DOM Elements
-        const authContainer = document.getElementById('authContainer');
-        const appContainer = document.getElementById('appContainer');
-        const loginSection = document.getElementById('loginSection');
-        const registerSection = document.getElementById('registerSection');
-        const currentUserSpan = document.getElementById('currentUser');
-        const sidebarUsername = document.getElementById('sidebarUsername');
-        
-        // Current logged in user
+        // App state
         let currentUser = null;
+        let currentChatContact = null;
+        let contacts = [];
 
-        // Toggle Forms
-        function showRegister() {
-            loginSection.classList.add('hidden');
-            registerSection.classList.remove('hidden');
+        // DOM elements
+        const loginScreen = document.getElementById('loginScreen');
+        const chatScreen = document.getElementById('chatScreen');
+        const profileScreen = document.getElementById('profileScreen');
+        const addContactScreen = document.getElementById('addContactScreen');
+        const loginForm = document.getElementById('loginForm');
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const loginError = document.getElementById('loginError');
+        const registerBtn = document.getElementById('registerBtn');
+        const chatContainer = document.getElementById('chatContainer');
+        const messageInput = document.getElementById('messageInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const chatTitle = document.getElementById('chatTitle');
+        const profileBtn = document.getElementById('profileBtn');
+        const addContactBtn = document.getElementById('addContactBtn');
+        const profileBackBtn = document.getElementById('profileBackBtn');
+        const profileName = document.getElementById('profileName');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+        const secretCodeDisplay = document.getElementById('secretCodeDisplay');
+        const copyCodeBtn = document.getElementById('copyCodeBtn');
+        const saveProfileBtn = document.getElementById('saveProfileBtn');
+        const addContactBackBtn = document.getElementById('addContactBackBtn');
+        const contactCodeInput = document.getElementById('contactCode');
+        const addContactSubmitBtn = document.getElementById('addContactSubmitBtn');
+        const addContactError = document.getElementById('addContactError');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        const toast = document.getElementById('toast');
+
+        // Event listeners
+        loginForm.addEventListener('submit', handleLogin);
+        registerBtn.addEventListener('click', handleRegister);
+        sendBtn.addEventListener('click', sendMessage);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        profileBtn.addEventListener('click', showProfile);
+        addContactBtn.addEventListener('click', showAddContact);
+        profileBackBtn.addEventListener('click', showChat);
+        addContactBackBtn.addEventListener('click', showChat);
+        copyCodeBtn.addEventListener('click', copySecretCode);
+        saveProfileBtn.addEventListener('click', saveProfile);
+        addContactSubmitBtn.addEventListener('click', addContact);
+
+        // Initialize the app
+        init();
+
+        function init() {
+            // Check if user is already logged in (from localStorage)
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                loadContacts();
+                showChat();
+            } else {
+                showLogin();
+            }
         }
-        
+
         function showLogin() {
-            registerSection.classList.add('hidden');
-            loginSection.classList.remove('hidden');
+            loginScreen.style.display = 'flex';
+            chatScreen.style.display = 'none';
+            profileScreen.style.display = 'none';
+            addContactScreen.style.display = 'none';
         }
 
-        // Register User
-        function register() {
-            const username = document.getElementById('newUsername').value.trim();
-            const password = document.getElementById('newPassword').value.trim();
-            const fullName = document.getElementById('fullName').value.trim();
-            const users = JSON.parse(localStorage.getItem('users'));
-
-            if (!username || !password || !fullName) {
-                alert('Please fill all fields');
-                return;
+        function showChat() {
+            loginScreen.style.display = 'none';
+            chatScreen.style.display = 'flex';
+            profileScreen.style.display = 'none';
+            addContactScreen.style.display = 'none';
+            
+            if (currentChatContact) {
+                loadMessages(currentChatContact.id);
+                chatTitle.textContent = currentChatContact.name;
+            } else if (contacts.length > 0) {
+                currentChatContact = contacts[0];
+                loadMessages(currentChatContact.id);
+                chatTitle.textContent = currentChatContact.name;
+            } else {
+                chatTitle.textContent = 'No Contacts';
+                chatContainer.innerHTML = '<p style="text-align: center; margin-top: 20px;">Add a contact to start chatting</p>';
             }
+        }
 
-            if (users.some(u => u.username === username)) {
-                alert('Username already exists');
-                return;
+        function showProfile() {
+            loginScreen.style.display = 'none';
+            chatScreen.style.display = 'none';
+            profileScreen.style.display = 'flex';
+            addContactScreen.style.display = 'none';
+            
+            // Populate profile data
+            if (currentUser) {
+                profileName.value = currentUser.name;
+                profileAvatar.style.backgroundImage = `url(${currentUser.avatar})`;
+                secretCodeDisplay.textContent = currentUser.secretCode;
             }
+        }
 
-            users.push({ 
-                username, 
-                password, 
-                fullName,
-                joined: new Date().toISOString()
+        function showAddContact() {
+            loginScreen.style.display = 'none';
+            chatScreen.style.display = 'none';
+            profileScreen.style.display = 'none';
+            addContactScreen.style.display = 'flex';
+            addContactError.textContent = '';
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+            
+            showLoading(true);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const user = simulatedBackend.users.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    loginError.textContent = '';
+                    currentUser = { ...user };
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    loadContacts();
+                    showChat();
+                } else {
+                    loginError.textContent = 'Invalid username or password';
+                }
+                
+                showLoading(false);
+            }, 800);
+        }
+
+        function handleRegister() {
+            const username = prompt('Enter a username:');
+            if (!username) return;
+            
+            const password = prompt('Enter a password:');
+            if (!password) return;
+            
+            showLoading(true);
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                const usernameExists = simulatedBackend.users.some(u => u.username === username);
+                
+                if (usernameExists) {
+                    alert('Username already taken');
+                    showLoading(false);
+                    return;
+                }
+                
+                // Generate a new user
+                const newUserId = Math.max(...simulatedBackend.users.map(u => u.id)) + 1;
+                const newUser = {
+                    id: newUserId,
+                    username,
+                    password,
+                    name: username,
+                    avatar: `https://i.pravatar.cc/150?img=${newUserId + 10}`,
+                    secretCode: generateSecretCode(),
+                    contacts: []
+                };
+                
+                simulatedBackend.users.push(newUser);
+                currentUser = { ...newUser };
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                loadContacts();
+                showChat();
+                
+                showToast('Registration successful!');
+                showLoading(false);
+            }, 1000);
+        }
+
+        function generateSecretCode() {
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const numbers = '0123456789';
+            let code = '';
+            
+            // Generate 4 random letters
+            for (let i = 0; i < 4; i++) {
+                code += letters.charAt(Math.floor(Math.random() * letters.length));
+            }
+            
+            code += '-';
+            
+            // Generate 4 random numbers
+            for (let i = 0; i < 4; i++) {
+                code += numbers.charAt(Math.floor(Math.random() * numbers.length));
+            }
+            
+            return code;
+        }
+
+        function loadContacts() {
+            if (!currentUser) return;
+            
+            contacts = simulatedBackend.users
+                .filter(u => u.id !== currentUser.id && currentUser.contacts.includes(u.id))
+                .map(u => ({
+                    id: u.id,
+                    name: u.name,
+                    avatar: u.avatar,
+                    secretCode: u.secretCode
+                }));
+        }
+
+        function loadMessages(contactId) {
+            if (!currentUser) return;
+            
+            chatContainer.innerHTML = '';
+            
+            const messages = simulatedBackend.messages
+                .filter(m => 
+                    (m.senderId === currentUser.id && m.receiverId === contactId) ||
+                    (m.senderId === contactId && m.receiverId === currentUser.id)
+                )
+                .sort((a, b) => a.timestamp - b.timestamp);
+            
+            messages.forEach(message => {
+                const isSent = message.senderId === currentUser.id;
+                const contact = isSent ? 
+                    contacts.find(c => c.id === message.receiverId) : 
+                    contacts.find(c => c.id === message.senderId);
+                
+                if (!contact) return;
+                
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${isSent ? 'sent' : 'received'}`;
+                
+                const time = new Date(message.timestamp);
+                const timeString = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                
+                let statusText = '';
+                if (isSent) {
+                    statusText = message.seen ? 
+                        `Seen at ${new Date(message.seenTimestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : 
+                        'Delivered';
+                }
+                
+                messageElement.innerHTML = `
+                    <div class="message-avatar" style="background-image: url(${contact.avatar})"></div>
+                    <div class="message-content">
+                        <div class="message-bubble">${message.text}</div>
+                        <div class="message-info">
+                            <span class="message-time">${timeString}</span>
+                            ${isSent ? `<span class="message-status">${statusText}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                chatContainer.appendChild(messageElement);
             });
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Registration successful! Please login.');
-            showLogin();
+            
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            
+            // Mark messages as seen
+            markMessagesAsSeen(contactId);
         }
 
-        // Login User
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const users = JSON.parse(localStorage.getItem('users'));
-            const user = users.find(u => u.username === username && u.password === password);
-
-            if (!user) {
-                alert('Invalid username or password');
-                return;
-            }
-
-            // Set current user
-            currentUser = user;
+        function sendMessage() {
+            const text = messageInput.value.trim();
+            if (!text || !currentUser || !currentChatContact) return;
             
-            // Switch to app
-            authContainer.classList.add('hidden');
-            appContainer.classList.remove('hidden');
-            
-            // Update UI
-            updateUserInfo();
-            loadInbox();
-            loadSent();
-            
-            // Start checking for new messages
-            setInterval(checkNewMessages, 5000);
-        }
-
-        // Update user info in UI
-        function updateUserInfo() {
-            currentUserSpan.textContent = currentUser.fullName || currentUser.username;
-            sidebarUsername.textContent = currentUser.username;
-            
-            // Set avatar initials
-            const initials = (currentUser.fullName || currentUser.username)
-                .split(' ')
-                .map(n => n[0])
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-            
-            document.querySelectorAll('.user-avatar').forEach(el => {
-                el.textContent = initials;
-            });
-        }
-
-        // Show section
-        function showSection(sectionId) {
-            document.querySelectorAll('.main-content > div').forEach(section => {
-                section.classList.add('hidden');
-            });
-            document.getElementById(sectionId).classList.remove('hidden');
-            
-            // Update active menu item
-            document.querySelectorAll('.sidebar-menu a').forEach(link => {
-                link.classList.remove('active');
-            });
-            event.target.classList.add('active');
-        }
-
-        // Send Massage
-        function sendMassage() {
-            const sender = currentUser.username;
-            const receiver = document.getElementById('friendUsername').value.trim();
-            const text = document.getElementById('massageText').value.trim();
-            const users = JSON.parse(localStorage.getItem('users'));
-            const massages = JSON.parse(localStorage.getItem('massages'));
-
-            if (!receiver || !text) {
-                alert('Please fill all fields');
-                return;
-            }
-
-            if (!users.some(u => u.username === receiver)) {
-                alert('User not found');
-                return;
-            }
-
-            const newMassage = {
-                sender,
-                receiver,
+            // Create new message
+            const newMessage = {
+                id: simulatedBackend.messages.length + 1,
+                senderId: currentUser.id,
+                receiverId: currentChatContact.id,
                 text,
-                timestamp: new Date().toISOString(),
-                read: false
+                timestamp: Date.now(),
+                seen: false
             };
             
-            massages.push(newMassage);
-            localStorage.setItem('massages', JSON.stringify(massages));
+            simulatedBackend.messages.push(newMessage);
+            messageInput.value = '';
             
-            document.getElementById('responseMessage').innerHTML = 
-                `<span style="color: var(--success);">Massage sent to ${receiver}!</span>`;
-            document.getElementById('massageText').value = '';
+            // Update UI
+            loadMessages(currentChatContact.id);
             
-            // Update sent list
-            loadSent();
+            // Simulate message delivery and seen status
+            setTimeout(() => {
+                const messageIndex = simulatedBackend.messages.findIndex(m => m.id === newMessage.id);
+                if (messageIndex !== -1) {
+                    simulatedBackend.messages[messageIndex].seen = true;
+                    simulatedBackend.messages[messageIndex].seenTimestamp = Date.now() + 1000;
+                    loadMessages(currentChatContact.id);
+                }
+            }, 2000);
         }
 
-        // Load Inbox
-        function loadInbox() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const inbox = massages.filter(m => m.receiver === currentUser.username);
-            
-            const inboxList = document.getElementById('inboxList');
-            inboxList.innerHTML = '';
-            
-            if (inbox.length === 0) {
-                inboxList.innerHTML = '<p>No messages in your inbox yet.</p>';
-                return;
-            }
-            
-            // Sort by newest first
-            inbox.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            inbox.forEach(msg => {
-                const senderUser = JSON.parse(localStorage.getItem('users'))
-                    .find(u => u.username === msg.sender);
-                
-                const card = document.createElement('div');
-                card.className = 'massage-card';
-                card.innerHTML = `
-                    <div class="massage-header">
-                        <div class="massage-sender">
-                            From: ${senderUser?.fullName || msg.sender}
-                        </div>
-                        <div class="massage-time">
-                            ${formatDate(msg.timestamp)}
-                        </div>
-                    </div>
-                    <p>${msg.text}</p>
-                `;
-                inboxList.appendChild(card);
-                
-                // Mark as read
-                if (!msg.read) {
-                    msg.read = true;
-                    localStorage.setItem('massages', JSON.stringify(massages));
+        function markMessagesAsSeen(contactId) {
+            // Mark received messages as seen
+            simulatedBackend.messages.forEach(message => {
+                if (message.receiverId === currentUser.id && 
+                    message.senderId === contactId && 
+                    !message.seen) {
+                    message.seen = true;
+                    message.seenTimestamp = Date.now();
                 }
             });
-            
-            // Update badge
-            updateInboxBadge();
         }
 
-        // Load Sent
-        function loadSent() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const sent = massages.filter(m => m.sender === currentUser.username);
+        function copySecretCode() {
+            if (!currentUser) return;
             
-            const sentList = document.getElementById('sentList');
-            sentList.innerHTML = '';
+            navigator.clipboard.writeText(currentUser.secretCode)
+                .then(() => {
+                    showToast('Secret code copied to clipboard!');
+                })
+                .catch(err => {
+                    console.error('Failed to copy: ', err);
+                    showToast('Failed to copy code');
+                });
+        }
+
+        function saveProfile() {
+            const newName = profileName.value.trim();
+            if (!newName || !currentUser) return;
             
-            if (sent.length === 0) {
-                sentList.innerHTML = '<p>You haven\'t sent any messages yet.</p>';
-                return;
-            }
+            showLoading(true);
             
-            // Sort by newest first
-            sent.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            
-            sent.forEach(msg => {
-                const receiverUser = JSON.parse(localStorage.getItem('users'))
-                    .find(u => u.username === msg.receiver);
+            // Simulate API call delay
+            setTimeout(() => {
+                // Update in simulated backend
+                const userIndex = simulatedBackend.users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    simulatedBackend.users[userIndex].name = newName;
+                }
                 
-                const card = document.createElement('div');
-                card.className = 'massage-card';
-                card.innerHTML = `
-                    <div class="massage-header">
-                        <div class="massage-sender">
-                            To: ${receiverUser?.fullName || msg.receiver}
-                        </div>
-                        <div class="massage-time">
-                            ${formatDate(msg.timestamp)}
-                        </div>
-                    </div>
-                    <p>${msg.text}</p>
-                `;
-                sentList.appendChild(card);
-            });
+                // Update current user
+                currentUser.name = newName;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Update contacts if needed
+                if (currentChatContact) {
+                    chatTitle.textContent = newName;
+                }
+                
+                showToast('Profile updated successfully!');
+                showLoading(false);
+                showChat();
+            }, 800);
         }
 
-        // Change Password
-        function changePassword() {
-            const currentPassword = document.getElementById('currentPassword').value;
-            const newPassword = document.getElementById('newPasswordSetting').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+        function addContact() {
+            const code = contactCodeInput.value.trim().toUpperCase();
+            if (!code || !currentUser) return;
             
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">Please fill all fields</span>';
+            // Validate code format (AAAA-1111)
+            if (!/^[A-Z]{4}-[0-9]{4}$/.test(code)) {
+                addContactError.textContent = 'Invalid code format. Should be AAAA-1111';
                 return;
             }
             
-            if (newPassword !== confirmPassword) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">New passwords don\'t match</span>';
+            // Check if it's their own code
+            if (code === currentUser.secretCode) {
+                addContactError.textContent = 'You cannot add yourself as a contact';
                 return;
             }
             
-            if (currentPassword !== currentUser.password) {
-                document.getElementById('passwordMessage').innerHTML = 
-                    '<span style="color: var(--error);">Current password is incorrect</span>';
-                return;
-            }
+            showLoading(true);
             
-            // Update password
-            const users = JSON.parse(localStorage.getItem('users'));
-            const userIndex = users.findIndex(u => u.username === currentUser.username);
-            users[userIndex].password = newPassword;
-            localStorage.setItem('users', JSON.stringify(users));
+            // Simulate API call delay
+            setTimeout(() => {
+                const contactUser = simulatedBackend.users.find(u => u.secretCode === code);
+                
+                if (!contactUser) {
+                    addContactError.textContent = 'No user found with this code';
+                    showLoading(false);
+                    return;
+                }
+                
+                // Check if already a contact
+                if (currentUser.contacts.includes(contactUser.id)) {
+                    addContactError.textContent = 'This user is already in your contacts';
+                    showLoading(false);
+                    return;
+                }
+                
+                // Add to contacts (both ways)
+                currentUser.contacts.push(contactUser.id);
+                contactUser.contacts.push(currentUser.id);
+                
+                // Update current user in localStorage
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                // Reload contacts and show chat
+                loadContacts();
+                currentChatContact = contacts.find(c => c.id === contactUser.id);
+                showChat();
+                
+                showToast('Contact added successfully!');
+                showLoading(false);
+            }, 1000);
+        }
+
+        function showLoading(show) {
+            loadingSpinner.style.display = show ? 'flex' : 'none';
+        }
+
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Avatar change functionality (simulated)
+        changeAvatarBtn.addEventListener('click', () => {
+            const randomAvatar = `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`;
+            profileAvatar.style.backgroundImage = `url(${randomAvatar})`;
+            
+            // Update in simulated backend
+            const userIndex = simulatedBackend.users.findIndex(u => u.id === currentUser.id);
+            if (userIndex !== -1) {
+                simulatedBackend.users[userIndex].avatar = randomAvatar;
+            }
             
             // Update current user
-            currentUser.password = newPassword;
+            currentUser.avatar = randomAvatar;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
             
-            document.getElementById('passwordMessage').innerHTML = 
-                '<span style="color: var(--success);">Password updated successfully!</span>';
-            
-            // Clear fields
-            document.getElementById('currentPassword').value = '';
-            document.getElementById('newPasswordSetting').value = '';
-            document.getElementById('confirmPassword').value = '';
-        }
-
-        // Check for new messages
-        function checkNewMessages() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const unreadCount = massages.filter(m => 
-                m.receiver === currentUser.username && !m.read
-            ).length;
-            
-            if (unreadCount > 0) {
-                updateInboxBadge();
-                
-                // If inbox is currently visible, refresh it
-                if (!document.getElementById('inboxSection').classList.contains('hidden')) {
-                    loadInbox();
-                }
-            }
-        }
-
-        // Update inbox badge
-        function updateInboxBadge() {
-            const massages = JSON.parse(localStorage.getItem('massages'));
-            const unreadCount = massages.filter(m => 
-                m.receiver === currentUser.username && !m.read
-            ).length;
-            
-            const badge = document.getElementById('inboxBadge');
-            if (unreadCount > 0) {
-                badge.classList.remove('hidden');
-                badge.textContent = unreadCount;
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        // Format date
-        function formatDate(isoString) {
-            const date = new Date(isoString);
-            return date.toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-            });
-        }
-
-        // Logout
-        function logout() {
-            currentUser = null;
-            appContainer.classList.add('hidden');
-            authContainer.classList.remove('hidden');
-            showLogin();
-            
-            // Clear fields
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-        }
+            showToast('Avatar updated!');
+        });
     </script>
 </body>
 </html>
